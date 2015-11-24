@@ -1,0 +1,12 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "typings",
+  "bundle": "typings/tsd.d.ts",
+  "installed": {
+    "lazy.js/lazy.js.d.ts": {
+      "commit": "708609e0764daeb5eb64104af7aca50c520c4e6e"
+    }
+  }
+}
