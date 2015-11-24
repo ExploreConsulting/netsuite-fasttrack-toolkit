@@ -20,6 +20,35 @@ Add the library to your project
 
     npm install netsuite-fasttrack-toolkit
 
+## Create a customer record
+
+```javascript
+    var customer = nsdal.createObject('customer', ['firstname', 'lastname', 'companyname'])
+
+    customer.firstname = 'joe'
+    customer.lastname = 'smith'
+    customer.companyname = 'my company'
+
+    customer.save()
+```
+## Search and iterate over results
+
+```javascript
+    EC.enableLazySearch() // call this (only) once in your script
+
+    // create search, returning 3 customer fields
+    var search = EC.createSearch(['customer'],[['firstname', 'contains', 'joe']],
+     ['internalid','firstname', 'phone'] )
+     .nsSearchResult2obj() // convert search results to plain javascript
+    .take(10000) // process only the first 10000
+    .map(function(customer) {
+        // log the phone number field of each customer
+        Log.d('customer phone', customer.phone)
+    }).toArray()
+
+```
+
+
 
 ## TypeScript
 You can use EC_Libs with TypeScript, more details coming soon. For now, just reference in the
