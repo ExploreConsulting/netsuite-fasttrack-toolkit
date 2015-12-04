@@ -29,11 +29,45 @@ Add the library to your project
     customer.lastname = 'smith'
     customer.companyname = 'my company'
 
-    customer.save()
+    var recordid = customer.save()
+
 ```
+
+
+## Sales Order Lines (sublist support)
+
+```javascript
+   var salesOrder = nsdal.loadObject('salesorder', '1234', ['entity', 'department','createddate'])
+                          .withSublist('item', ['item', 'quantity','amount'])
+
+    // do something with body fields
+    salesOrder.department
+    salesOrder.entity
+    salesOrder.createddate // this is a monentjs instance
+
+   // find all line items with quantity > 100
+   var highQtyLineItems = _.filter(salesOrder.item, function(line){ return line.quantity > 100 })
+
+   // process each line item
+   _.each(salesOrder.item, function(line) {
+   /* do something with 'line'*/
+     line.item
+     line.quantity
+     line.amount
+   })
+
+   // add a line item
+   var newline = salesOrder.item.addLine()
+   newline.item = '123'
+   newline.quantity = 1
+   newline.amount = 23.0
+```
+
+
 ## Search and iterate over results
 
 ```javascript
+
     EC.enableLazySearch() // call this (only) once in your script
 
     // create search, returning 3 customer fields
@@ -50,9 +84,9 @@ Add the library to your project
 
 
 
-## TypeScript
-You can use EC_Libs with TypeScript, more details coming soon. For now, just reference in the
-typings files:
+## TypeScript (optional)
+The library is written in Javascript but you can use it with TypeScript. Just reference the typings files into your
+script file:
 
     ///<reference path="../node_modules/@ec/suitescript/nlapi.d.ts"/>
     ///<reference path="../node_modules/@ec/suitescript/EC_SharedLibrary_Common.d.ts"/>
@@ -60,7 +94,28 @@ typings files:
     ///<reference path="../node_modules/@ec/suitescript/EC_nsdal.d.ts"/>
     ///<reference path="../node_modules/@ec/suitescript/EC_Search.d.ts"/>
 
-or add them to your `typings/tsd.d.ts` file if using tsd.
+or add them to your `typings/tsd.d.ts` file and reference that if using tsd[1].
+
+Example:
+
+### Load a customer record (TS)
+
+```typescript
+  interface Customer {
+        companyname:string
+        phone:string
+    }
+
+    var customer = nsdal.loadObject<Customer>('customer', '1234', ['companyname', 'phone'])
+
+    // customer is of type Customer and NSDALObject, so it has properties and traditional nlobjRecord methods
+    customer.phone = '123-456-7890'
+    customer.getFieldText('companyname')
+
+   // nlapi calls are type checked
+   nlapiRequestURL('url')
+
+```
 
 
 Contents
@@ -120,3 +175,5 @@ To create a single file library for referencing in NetSuite
 
 
 _Note: designed for SuiteScript 1.x._
+
+[1][foo](test.com)
