@@ -6,6 +6,7 @@ var global = this;
 
 // stub out top level nlapi functionality
 global.nlapiCreateSearch               = sinon.stub();
+global.nlapiLoadSearch                  = sinon.stub();
 global.nlapiSearchRecord               = sinon.stub();
 nlobjSearchColumn.prototype.setFormula = function (formula) {
     ;
@@ -108,6 +109,86 @@ describe("Lazy Search", function () {
             foo: "foo3",
             bar: "bar3"
         })
+    });
+
+    it("createSearch() can JSON.stringify()", function () {
+        //region test setup
+        // mocking createSearch -> nlobjSearch.runSearch() ->  nlobjSearchResultSet -> getResults()
+        var nSearch          = sinon.stub();
+        var nSearchResultSet = sinon.stub();
+        nSearch.runSearch    = sinon.stub().returns(nSearchResultSet);
+        nSearch.getSearchType = sinon.stub().returns('foo');
+        nSearch.getFilterExpression = sinon.stub().returns([['somefake','filter', 'expression']]);
+
+
+        var generatedResults = generateNSSearchResults(0, 5);
+
+        nSearchResultSet.getResults = sinon.stub().returns(generatedResults);
+
+        nlapiCreateSearch.returns(nSearch);
+        //endregion
+
+        EC.enableLazySearch(); // required to bing the search functions into scope on the EC object
+
+        var s = EC.createSearch("ignored", [[]]
+            , [
+            ["internalid"],
+            ["amount"]
+        ]);
+
+        var stringified = JSON.stringify(s);
+      //  dump(stringified);
+        expect(stringified).toEqual('{"recordType":"foo","filters":[["somefake","filter","expression"]]}')
+    });
+
+    it("loadSearch() can JSON.stringify()", function () {
+        //region test setup
+        // mocking createSearch -> nlobjSearch.runSearch() ->  nlobjSearchResultSet -> getResults()
+        var nSearch          = sinon.stub();
+        var nSearchResultSet = sinon.stub();
+        nSearch.runSearch    = sinon.stub().returns(nSearchResultSet);
+        nSearch.getSearchType = sinon.stub().returns('foo');
+        nSearch.getFilterExpression = sinon.stub().returns([['somefake','filter', 'expression']]);
+
+
+        var generatedResults = generateNSSearchResults(0, 5);
+
+        nSearchResultSet.getResults = sinon.stub().returns(generatedResults);
+
+        nlapiLoadSearch.returns(nSearch);
+        //endregion
+
+        EC.enableLazySearch(); // required to bing the search functions into scope on the EC object
+
+        var s = EC.loadSearch("ignored", 123);
+
+        var stringified = JSON.stringify(s);
+      //  dump(stringified);
+        expect(stringified).toEqual('{"recordType":"foo","filters":[["somefake","filter","expression"]]}')
+    });
+
+    it("fromSearch() can JSON.stringify()", function () {
+        //region test setup
+        // mocking createSearch -> nlobjSearch.runSearch() ->  nlobjSearchResultSet -> getResults()
+        var nSearch          = sinon.stub();
+        var nSearchResultSet = sinon.stub();
+        nSearch.runSearch    = sinon.stub().returns(nSearchResultSet);
+        nSearch.getSearchType = sinon.stub().returns('foo');
+        nSearch.getFilterExpression = sinon.stub().returns([['somefake','filter', 'expression']]);
+
+        var generatedResults = generateNSSearchResults(0, 5);
+
+        nSearchResultSet.getResults = sinon.stub().returns(generatedResults);
+
+        //endregion
+
+        EC.enableLazySearch(); // required to bing the search functions into scope on the EC object
+
+        var s = EC.fromSearch(nSearch);
+
+        var stringified = JSON.stringify(s);
+      //  dump(stringified);
+        expect(stringified).toEqual('{"recordType":"foo","filters":[["somefake","filter","expression"]]}')
     });
 
     function fakeColumn(name, label, join, summary) {

@@ -1,6 +1,6 @@
 {
   "name": "netsuite-fasttrack-toolkit",
-  "version": "9.2.6",
+  "version": "9.2.7",
   "description": "Power library for NetSuite SuiteScript projects.",
   "main": "none",
   "directories": {

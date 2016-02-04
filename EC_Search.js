@@ -26,6 +26,19 @@ var global = this;
 EC.enableLazySearch = function () {
 
     /**
+     * Utility to provides a useful output if you try to JSON.stringify() a NetSuite Lazy search object directly.
+     * This exists to override the default JSON.stringify() behavior which seems to explode when run in NS against a
+     * standard lazy search object (probably when trying to serialize the nlobjSearch which is on this.search)
+     * Note this must be called with 'this' set to a nlobjSearch object
+     */
+    var toJSON = function () {
+        return {
+            recordType: this.getSearchType(),
+            filters: this.getFilterExpression()
+        }
+    };
+
+    /**
      * Makes a new search using "filter expression" syntax and parallel custom syntax for column "expressions"
      * @param {String} recordtype netsuite record type to search (e.g. "transaction")
      * @param {Array} filters filter expression or array of nlobjSearchFilters
@@ -37,6 +50,7 @@ EC.enableLazySearch = function () {
      * var search = mkSearch("customer",[['firstname','is','joe']], [["firstname"],["lastname"]]);
      */
     function mkSearch(recordtype, filters, columns) {
+
         // columns are specified as fixed position string expressions much like filter expressions with the array indexes below
         var NAME = 0, LABEL = 1, JOIN = 2, SUMMARY = 3;
         var cols = _.map(columns, function (c) {
@@ -91,6 +105,8 @@ EC.enableLazySearch = function () {
         return this.slice[this.currentIndex];
     };
 
+
+
     /**
      * creates a sequence backed by a netsuite ad-hoc search.
      * @example Searches transations by date, returning internal id and amount columns
@@ -106,7 +122,9 @@ EC.enableLazySearch = function () {
         // defines a new NS search. The init function should not be an expensive call, but we have to
         // run the search before we can iterate.
         init: function (recordType, filters, columns) {
-            this.search = mkSearch(recordType, filters, columns).runSearch();
+            var s = mkSearch(recordType, filters, columns);
+            this.toJSON = toJSON.bind(s);
+            this.search = s.runSearch();
         },
         // iterates over results
         getIterator: function () {
@@ -124,7 +142,9 @@ EC.enableLazySearch = function () {
         // defines a new NS search. The init function should not be an expensive call, but we have to
         // run the search before we can iterate.
         init: function (recordType, id) {
-            this.search = nlapiLoadSearch(recordType, id).runSearch();
+            var s = nlapiLoadSearch(recordType, id);
+            this.toJSON = toJSON.bind(s);
+            this.search = s.runSearch();
         },
         // iterates over results
         getIterator: function () {
@@ -141,6 +161,7 @@ EC.enableLazySearch = function () {
 
         // accepts a NS search.
         init: function (searchObj) {
+            this.toJSON = toJSON.bind(searchObj);
             this.search = searchObj.runSearch();
         },
         // iterates over results
