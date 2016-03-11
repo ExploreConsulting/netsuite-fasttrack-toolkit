@@ -17,7 +17,7 @@ var $ = require('gulp-load-plugins')();
  * All the sources files we want minimize and combine
  */
 var sources = ["References/jQueryAOP/src/aop.js",
-    "node_modules/lodash/index.js",
+    "node_modules/lodash/lodash.js",
     "node_modules/moment/moment.js",
     "node_modules/lazy.js/lazy.js",
     "workarounds.js",

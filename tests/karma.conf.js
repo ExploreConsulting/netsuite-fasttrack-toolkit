@@ -17,7 +17,7 @@ module.exports = function (config) {
             "node_modules/sinon/pkg/sinon.js",
             "node_modules/sinon-chai/lib/sinon-chai.js",
             "References/jQueryAOP/src/aop.js",
-            "node_modules/lodash/index.js",
+            "node_modules/lodash/lodash.js",
             "node_modules/moment/moment.js",
             "node_modules/lazy.js/lazy.js",
             "tests/nsApiMocks.js",
