@@ -1,4 +1,3 @@
-///<reference path="typings/lazy.js/lazy.js.d.ts"/>
 /**
  * NetSuite Search utilities here.
  *
@@ -7,6 +6,8 @@
  *
  * Dependencies: Lazy.js, EC_SharedLibrary_ServerSide.js
  */
+
+///<reference path="typings/browser.d.ts"/>
 
 declare module EC {
     /**

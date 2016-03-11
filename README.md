@@ -85,18 +85,13 @@ Add the library to your project
 
 
 ## TypeScript (optional)
-The library is written in Javascript but you can use it with TypeScript. Just reference the typings files into your
-script file:
+The library is written in Javascript but you can use it with TypeScript. Typings are managed with the [typings](https://github.com/typings/typings) tool.
 
-    ///<reference path="../node_modules/@ec/suitescript/nlapi.d.ts"/>
-    ///<reference path="../node_modules/@ec/suitescript/EC_SharedLibrary_Common.d.ts"/>
-    ///<reference path="../node_modules/@ec/suitescript/EC_SharedLibrary_ServerSide.d.ts"/>
-    ///<reference path="../node_modules/@ec/suitescript/EC_nsdal.d.ts"/>
-    ///<reference path="../node_modules/@ec/suitescript/EC_Search.d.ts"/>
+Install typescript declarations:
 
-or add them to your `typings/tsd.d.ts` file and reference that if using tsd[1].
+    typings install
 
-Example:
+Examples using TypeScript:
 
 ### Load a customer record (TS)
 
@@ -176,4 +171,3 @@ To create a single file library for referencing in NetSuite
 
 _Note: designed for SuiteScript 1.x._
 
-[1][foo](test.com)
