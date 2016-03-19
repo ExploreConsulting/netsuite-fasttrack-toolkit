@@ -12,7 +12,7 @@
 var global = this;
 
 describe('NSDAL', function () {
-    describe('make object', function () {
++    describe('make object', function () {
         // using sinon.test() makes the stub restore itself after the test so other tests have a clean slate
         it("test create record has correct properties", sinon.test(function () {
 
@@ -168,11 +168,13 @@ describe('NSDAL', function () {
             this.stub(fakeLoadedRecord, 'getField')
                 .withArgs('foo').returns({type: 'date'});
 
+            this.stub(fakeLoadedRecord,'getFieldValue').returns('2011/01/01')
             // exercise SUT
             var o = nsdal.loadObject('custrecord_license_key', 'mockid', ['foo']);
 
             // expect the foo property to be recognized as a 'moment' instance
             assert(moment.isMoment(o.foo));
+
         }));
 
         it("test datetime netsuite field is a Momentjs instance", sinon.test(function () {
@@ -182,6 +184,7 @@ describe('NSDAL', function () {
             // stub only foo to be a date field
             this.stub(fakeLoadedRecord, 'getField')
                 .withArgs('foo').returns({type: 'datetime'});
+            this.stub(fakeLoadedRecord,'getFieldValue').returns('2011/01/01')
 
             // exercise SUT
             var o = nsdal.loadObject('x', 'mockid', ['foo']);
@@ -202,6 +205,8 @@ describe('NSDAL', function () {
             // stub foo to be a date field
             this.stub(fakeLoadedRecord, 'getField')
                 .withArgs('foo').returns({type: 'date'});
+            this.stub(fakeLoadedRecord,'getFieldValue').returns('unused date value')
+
             this.stub(global, 'nlapiStringToDate').returns(testDateFullISO);
             //endregion
 
@@ -233,6 +238,29 @@ describe('NSDAL', function () {
             o.foo = null;
             // NS should have called setfield value with an actual null
             assert(setLineValueSpy.calledWith("foo", null));
+        }));
+
+        it("reading a null date should not return a moment(null) instance", sinon.test(function () {
+
+            //region test setup
+            var fakeLoadedRecord = getRecordStub();
+            this.stub(global, 'nlapiLoadRecord').returns(fakeLoadedRecord);
+            // stub foo to be a date field
+            this.stub(fakeLoadedRecord, 'getField')
+                .withArgs('foo').returns({type: 'date'});
+            // force return null, which is used by the datetime descriptor with the underlying field
+            this.stub(fakeLoadedRecord,'getFieldValue').returns(null)
+
+            //endregion
+
+            // exercise SUT
+            var o = nsdal.loadObject('x', 'mockid', ['foo']);
+
+            // attempt to read a 'null'  date (date that isn't set at all on the underlying NS field)
+            var nulldate = o.foo;
+            // since the underlying field is null so should the read value
+            assert.isNotObject(nulldate);
+            assert.isNull(nulldate);
         }));
 
         it("test set date undefined does nothing to netsuite (NOP)", sinon.test(function () {

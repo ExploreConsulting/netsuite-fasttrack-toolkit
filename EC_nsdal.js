@@ -69,7 +69,9 @@ if (!nsdal) {
 function dateTimeDescriptor(fieldType, getter, setter) {
     return {
         get: function () {
-            return moment(nlapiStringToDate(getter(), fieldType));
+            var value = getter();
+            // ensure we don't return moments for null, undefined, etc.
+            return value ? moment(nlapiStringToDate(value, fieldType)) : value;
         },
         set: function (value) {
             // allow null to flow through, but ignore undefined's
