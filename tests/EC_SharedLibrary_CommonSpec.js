@@ -95,3 +95,163 @@ describe('Transaction type IDs', function() {
         expect(result).toBeUndefined();
     });
 });
+
+/**
+ * Unit tests for the country lookup function
+ */
+describe('geographic countries', function() {
+
+    it("test find country id by name", function () {
+
+        var result = EC.getCountry({ name:"United States"});
+
+        expect(result.id).toBe(230);
+
+    });
+
+    it("test find country id by abbreviation", function () {
+
+        var result = EC.getCountry( { abbrev:"US"} );
+
+        expect(result.id).toBe(230);
+    });
+
+    it("test find country name by internal id", function () {
+
+        var result = EC.getCountry( { id:230 } );
+
+        expect(result.name).toEqual("United States");
+    });
+
+    it("test find country requires exact match operation", function () {
+
+        var result = EC.getCountry( { abbrev:"usa"} );
+
+        // "usa" was an exact search - getState() returns 'undefined' if not found
+        expect(result).toBeUndefined();
+
+        // if you want looser semantics do so first, for example countries are all defined as uppercase abbreviations:
+        result = EC.getCountry({ abbrev: "us".toUpperCase() });
+        expect(result).not.toBeUndefined();
+    });
+
+    it("test if country not found", function () {
+
+        // expect undefined if you try searching for a country property that doesn't exist in our list
+        var result = EC.getCountry({ name:"South Explore"});
+
+        expect(result).toBeUndefined(result);
+    });
+
+    it("test cannot get country by internalid string due to === matching", function () {
+
+        var result = EC.getCountry( { id:"230" } );
+
+        expect(result).toBeUndefined();
+
+        // internal ids are strongly typed as integers
+        result = EC.getCountry( { id: parseInt("230") });
+        expect(result.name).toEqual("United States");
+    });
+});
+
+/**
+ * Unit tests for the item type lookup function
+ */
+describe('item type lookup', function() {
+
+    it("test find valid item type for Non Inventory Part", function () {
+
+        var result = EC.ItemTypes.NonInvtPart;
+        expect(result).toBe("noninventoryitem");
+
+    });
+    it("test find valid item type for Inventory Part", function () {
+
+        var result = EC.ItemTypes.InvtPart;
+        expect(result).toBe("inventoryitem");
+
+    });
+    it("test find valid item type for Group Item", function () {
+
+        var result = EC.ItemTypes.Group;
+        expect(result).toBe("itemgroup");
+
+    });
+    it("test find valid item type for Kit Item", function () {
+
+        var result = EC.ItemTypes.Kit;
+        expect(result).toBe("kititem");
+
+    });
+    it("test find valid item type for Assembly Item", function () {
+
+        var result = EC.ItemTypes.Assembly;
+        expect(result).toBe("assemblyitem");
+
+    });
+    it("test find valid item type for Service Item", function () {
+
+        var result = EC.ItemTypes.Service;
+        expect(result).toBe("serviceitem");
+
+    });
+    it("test find valid item type for Description Item", function () {
+
+        var result = EC.ItemTypes.Description;
+        expect(result).toBe("descriptionitem");
+
+    });
+    it("test find valid item type for Discount Item", function () {
+
+        var result = EC.ItemTypes.Discount;
+        expect(result).toBe("discountitem");
+
+    });
+    it("test find valid item type for Other Charge Item", function () {
+
+        var result = EC.ItemTypes.OthCharge;
+        expect(result).toBe("otherchargeitem");
+
+    });
+    it("test find valid item type for Gift Certificate Item", function () {
+
+        var result = EC.ItemTypes.GiftCert;
+        expect(result).toBe("giftcertificateitem");
+
+    });
+    it("test find valid item type for Markup Item", function () {
+
+        var result = EC.ItemTypes.Markup;
+        expect(result).toBe("markupitem");
+
+    });
+    it("test find valid item type for Payment Item", function () {
+
+        var result = EC.ItemTypes.Payment;
+        expect(result).toBe("paymentitem");
+
+    });
+    it("test find valid item type for Subtotal Item", function () {
+
+        var result = EC.ItemTypes.Subtotal;
+        expect(result).toBe("subtotalitem");
+
+    });
+
+    it("test find invalid item type", function () {
+
+        var result = EC.ItemTypes.NonInvPart;
+        expect(result).toBeUndefined();
+
+    });
+
+    // Should be 13 item types defined in object
+    it("test number of item types defined", function () {
+
+        var result = Object.keys(EC.ItemTypes).length;
+        expect(result).toBe(13);
+
+    });
+
+});

@@ -126,3 +126,54 @@ var TransactionTypeMap = [
 ];
 
 EC.getTransactionType = _.partial(_.find,TransactionTypeMap);
+
+/**
+ * Represents common countries.
+ * @type {{id,name,abbrev}}
+ */
+var countryMapping = [ { name:'', id: "", abbrev: ""},
+    { name:'United States', id: 230, abbrev: "US"},
+    { name:'Mexico', id: 157, abbrev: "MX"},
+    { name:'Canada', id: 37, abbrev: "CA"},
+    { name:'Puerto Rico', id: 182, abbrev: "PR"}
+];
+
+/**
+ *  Lookup country data by one of 3 keys: internal id, abbreviation or country name. Providing any one
+ *  of the three will exact match then return an object with all 3.
+ * @type {function({name:string,id:number,abbrev:string})} country name, country internal id, and country 2-letter abbreviation
+ * @example
+ * //get by full name
+ * EC.getCountry({ name:"United States"});
+ *  {name:'United States', id: 230, abbrev: "US"}
+ *
+ * // get by abbreviation
+ * EC.getCountry({ abbrev: "US" } );
+ *  {name:'United States', id: 230, abbrev: "US"}
+ *
+ * // get by id
+ * EC.getCountry( { id: '230' } );
+ *  {name:'United States', id: 230, abbrev: "US"}
+ */
+EC.getCountry = _.partial(_.find, countryMapping);
+
+
+/**
+ * Represents NetSuite internal and external IDs for all item types
+ * @type {Object}
+ */
+EC.ItemTypes = {
+    InvtPart: "inventoryitem",
+    NonInvtPart: "noninventoryitem",
+    Group: "itemgroup",
+    Kit: "kititem",
+    Assembly: "assemblyitem",
+    Service: "serviceitem",
+    Description: "descriptionitem",
+    Discount: "discountitem",
+    OthCharge: "otherchargeitem",
+    GiftCert: "giftcertificateitem",
+    Markup: "markupitem",
+    Payment: "paymentitem",
+    Subtotal: "subtotalitem"
+};
