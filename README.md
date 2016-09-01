@@ -1,5 +1,7 @@
 Netsuite Fast Track Toolkit
 =========================
+
+[![Join the chat at https://gitter.im/ExploreConsulting/netsuite-fasttrack-toolkit](https://badges.gitter.im/ExploreConsulting/netsuite-fasttrack-toolkit.svg)](https://gitter.im/ExploreConsulting/netsuite-fasttrack-toolkit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 A bundle of joy for NetSuite SuiteScript developers.
 
 See the [overview document](https://docs.google.com/document/d/13Nvv-XcH_IkLsKEEuqPba3OY2JpKkBP3iDUDMTrT_1Q) for an
