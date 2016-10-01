@@ -183,7 +183,7 @@ EC.enableLazySearch = function () {
                 acc[thefield] = r.getValue(column);
                 if ( getText === true )  acc[thefield  + "Text"] = r.getText(column);
                 return acc;
-            }, {});
+            }, { id: r.getId() }); // always include an 'id' field for row internal id
         });
     };
 

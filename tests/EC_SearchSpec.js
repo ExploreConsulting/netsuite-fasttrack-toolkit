@@ -229,7 +229,42 @@ describe("Lazy Search", function () {
 
             // due to primitive mocking (just a single column "foo"), we get the following result.
             // the value is an object because it uses result.getValue(nlobjColumn) rather than getValue("colname")
-            expect(s.toArray()[3]).toEqual({foo: 'foo3'});
+            expect(s.toArray()[3]).toEqual({ id: 3, foo: 'foo3'});
+        });
+
+        it("always returns an 'id' property for the internal id", function () {
+            //region test setup
+            // mocking createSearch -> nlobjSearch.runSearch() ->  nlobjSearchResultSet -> getResults()
+            var nSearch = sinon.stub();
+            var nSearchResultSet = sinon.stub();
+            nSearch.runSearch = sinon.stub().returns(nSearchResultSet);
+
+            var generatedResults = generateNSSearchResults(0, 5);
+
+            nSearchResultSet.getResults = sinon.stub().returns(generatedResults);
+            nSearchResultSet.getColumns = sinon.stub().returns([fakeColumn("foo")]);
+            nlapiCreateSearch.returns(nSearch);
+            //endregion
+
+            EC.enableLazySearch(); // required to bing the search functions into scope on the EC object
+
+            var s = EC.createSearch("transaction", [
+                ["amount", "greaterthan", "0"]
+            ], [
+                ["notused"] // the fakecolumn mapping above overrides what is passed here
+            ]).nsSearchResult2obj(); // convert netsuite results to javascript objects
+
+            // all results should have an id
+            s.each(function (f) {
+                console.log(JSON.stringify(f));
+            })
+
+            // since result generated assigns the fake internal id == index of the result, we can
+            // expect the id to equal the index
+            expect(s.every(function(f, index){ return f.id == index })).toBe(true)
+            // due to primitive mocking (just a single column "foo"), we get the following result.
+            // the value is an object because it uses result.getValue(nlobjColumn) rather than getValue("colname")
+            expect(s.toArray()[3]).toEqual({id: 3, foo: 'foo3'});
         });
 
         it("column labels take precedence for prop names, even for join columns", function () {
@@ -269,6 +304,8 @@ describe("Lazy Search", function () {
 
             // we expect the rendered javascript object to obey the following property names
             expect(s.toArray()[3]).toEqual({
+                // internal id
+                id : 3,
                 // standard column should get named after the field name
                 foo : 'foo3',
                 // label take precedence over field name
@@ -308,7 +345,7 @@ describe("Lazy Search", function () {
 
             // due to primitive mocking (just a single column "foo"), we get the following result.
             // the value is an object because it uses result.getValue(nlobjColumn) rather than getValue("colname")
-            expect(s.toArray()[3]).toEqual({foo: 'foo3', fooText: "text-foo3-text"});
+            expect(s.toArray()[3]).toEqual({ id: 3, foo: 'foo3', fooText: "text-foo3-text"});
 
         });
     });
