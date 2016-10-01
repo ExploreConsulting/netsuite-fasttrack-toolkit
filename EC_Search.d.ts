@@ -43,9 +43,11 @@ declare module EC {
          * the column label else column name. For joined columns, property name is "joinnamecolumnname" (join and
          * column concatenated) if no label was specified.
          * @param getText if true include xxxxText properties on the objects based on NetSuite result.getText()
+         * @param useLabels set true to use custom column labels as property names by default. Otherwise uses
+         * column internal id names to form the output object properties.
          * @returns javascript objects representing the search results
          */
-        nsSearchResult2obj(getText?:string) : SearchResultSequence<T>
+        nsSearchResult2obj(getText?:string, useLabels?:boolean) : SearchResultSequence<T>
     }
 
     /**

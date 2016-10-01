@@ -171,14 +171,15 @@ EC.enableLazySearch = function () {
     });
 
 
-    Lazy.Sequence.prototype.nsSearchResult2obj = function (getText) {
+    Lazy.Sequence.prototype.nsSearchResult2obj = function (getText, useLabels) {
 
         if (!this.search)
             throw new Error("this method must be applied to a sequence of NetSuite search results");
         var columns = this.search.getColumns();
         return this.map(function (r) {
             return Lazy(columns).reduce(function (acc, column) {
-                var thefield = column.getLabel() || // label takes precedence else join+name else name
+                // use column custom label only if specified, otherwise fall back to <join>internalid naming convention
+                var thefield = (useLabels && column.getLabel()) ||
                     (column.getJoin() ? column.getJoin() + column.getName(): column.getName());
                 acc[thefield] = r.getValue(column);
                 if ( getText === true )  acc[thefield  + "Text"] = r.getText(column);

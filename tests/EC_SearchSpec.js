@@ -296,7 +296,7 @@ describe("Lazy Search", function () {
                 ["amount", "greaterthan", "0"]
             ], [
                 ["notused"] // the fakecolumn mapping above overrides what is passed here
-            ]).nsSearchResult2obj(); // convert netsuite results to javascript objects
+            ]).nsSearchResult2obj(false,true); // indicate we want to use column labels
 
             s.each(function (f) {
                 console.log(JSON.stringify(f));
