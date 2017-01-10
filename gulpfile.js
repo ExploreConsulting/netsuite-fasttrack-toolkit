@@ -24,7 +24,9 @@ var sources = ["References/jQueryAOP/src/aop.js",
     "EC_SharedLibrary_Common.js",
     "EC_SharedLibrary_ServerSide.js",
     "EC_Search.js",
-    "EC_nsdal.js"
+    "EC_nsdal.js",
+    "consoleAppender.js",
+    "EC_Logging.js"
 ];
 
 // build the project to a single file for easy deployment to NetSuite libraries tab, includes several other open source

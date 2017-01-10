@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "module": "none",
-    //"moduleResolution": "node",
+    "typeRoots": ["node_modules/@types"],
+    "module": "commonjs",
+    "moduleResolution": "node",
     "target": "es5",
     "noImplicitAny": false,
     "sourceMap": false,

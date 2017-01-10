@@ -391,3 +391,5 @@ namespace LogManager {
     if (EC.isClientScript)  addAppender(new ConsoleAppender.ConsoleAppender())
     else addAppender(new ExecutionLogAppender())
 }
+
+
