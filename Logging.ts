@@ -3,14 +3,16 @@
  */
 
 import {ConsoleAppender} from "aurelia-logging-console"
-import {Logger, Appender, logLevel, getLogger, getLevel, setLevel, addAppender} from "aurelia-logging"
 
+export {Logger, Appender, logLevel, getLogger, getLevel, setLevel, addAppender} from "aurelia-logging"
+import * as al from "aurelia-logging"
 
 declare interface Moment {
     (): any
     duration: any
 }
 declare var moment: Moment
+
 
 
 /**
@@ -35,7 +37,7 @@ export let setIncludeCorrelationId = (enable: boolean) => includeCorrelationId =
 
 
 // invokes the nsdal log function and handles adding a title tag
-function log(loglevel: number, logger: Logger, ...rest: any[]) {
+function log(loglevel: number, logger: al.Logger, ...rest: any[]) {
     let [title, details] = rest
     let prefix = ''
 
@@ -63,11 +65,11 @@ function log(loglevel: number, logger: Logger, ...rest: any[]) {
  * warn -> NS 'ERROR'
  * error -> NS 'emergency'
  */
-export class ExecutionLogAppender implements Appender {
+export class ExecutionLogAppender implements al.Appender {
 
 
-    debug(logger: Logger, ...rest: any[]) {
-        log(logLevel.debug, logger, ...rest)
+    debug(logger: al.Logger, ...rest: any[]) {
+        log(al.logLevel.debug, logger, ...rest)
     }
 
     /**
@@ -75,34 +77,34 @@ export class ExecutionLogAppender implements Appender {
      * @param logger
      * @param rest
      */
-    info(logger: Logger, ...rest: any[]) {
-        log(logLevel.info, logger, ...rest)
+    info(logger: al.Logger, ...rest: any[]) {
+        log(al.logLevel.info, logger, ...rest)
     }
 
-    warn(logger: Logger, ...rest: any[]) {
-        log(logLevel.warn, logger, ...rest)
+    warn(logger: al.Logger, ...rest: any[]) {
+        log(al.logLevel.warn, logger, ...rest)
     }
 
-    error(logger: Logger, ...rest: any[]) {
-        log(logLevel.error, logger, ...rest)
+    error(logger: al.Logger, ...rest: any[]) {
+        log(al.logLevel.error, logger, ...rest)
     }
 }
 
 // instantiate the default logger and set it's logging level to the most verbose - this is used as
 // the 'main' logger by consumers
-let defaultLogger = getLogger('default')
-defaultLogger.setLevel(logLevel.debug)
+let defaultLogger = al.getLogger('default')
+defaultLogger.setLevel(al.logLevel.debug)
 
 // maps aurelia numeric levels to NS string level names
 function toNetSuiteLogLevel(level: number) {
     switch (level) {
-        case logLevel.debug:
+        case al.logLevel.debug:
             return 'debug'
-        case logLevel.info:
+        case al.logLevel.info:
             return 'audit'
-        case logLevel.warn:
+        case al.logLevel.warn:
             return 'error'
-        case logLevel.error:
+        case al.logLevel.error:
             return 'emergency'
     }
 }
@@ -145,9 +147,16 @@ export function autoLogMethodEntryExit(methodsToLogEntryExit: {target: Object, m
     // logger on which to autolog, default to the top level 'Default' logger used by scripts
     let logger = config.logger || DefaultLogger
 
+    let level = config.logLevel || al.logLevel.debug
+    let methods = {}
+    methods[al.logLevel.debug] = logger.debug
+    methods[al.logLevel.info] = logger.info
+    methods[al.logLevel.warn] = logger.warn
+    methods[al.logLevel.error] = logger.error
+
     return aop.around(methodsToLogEntryExit, function (invocation) {
         // record function entry with details for every method on our explore object
-        log(config.logLevel || logLevel.debug, logger, `Enter ${invocation.method}() ${getGovernanceMessage(withGovernance)}`,
+        methods[level](`Enter ${invocation.method}() ${getGovernanceMessage(withGovernance)}`,
             withArgs ? 'args: ' + JSON.stringify(arguments[0].arguments) : null)
         let startTime = moment()
         let retval = invocation.proceed()
@@ -158,8 +167,7 @@ export function autoLogMethodEntryExit(methodsToLogEntryExit: {target: Object, m
                 moment.duration(elapsedMilliseconds).asMinutes().toFixed(2) + " minutes";
         }
         // record function exit for every method on our explore object
-        log(config.logLevel || logLevel.debug, logger,
-            [`Exit ${invocation.method}()`,
+        methods[level]([`Exit ${invocation.method}()`,
                 elapsedMessage,
                 getGovernanceMessage(withGovernance)].join(' ').trim(),
             withReturnValue ? "returned: " + JSON.stringify(retval) : null);
@@ -185,14 +193,14 @@ export interface AutoLogConfig {
      */
     withProfiling?: boolean
     withGovernance?: boolean
-    logger?: Logger
+    logger?: al.Logger
     logLevel?: number
 }
 
 /**
  * The default logger - this should be the main top level logger used in scripts
  */
-export let DefaultLogger: Logger = defaultLogger
+export let DefaultLogger: al.Logger = defaultLogger
 
 /**
  * Use to set the correlation id to a value other than the default random number
@@ -202,8 +210,7 @@ export let setCorrelationId = (value: string) => correlationId = value
 
 // automatically use a browser appender if this is a client script so as to save network round trips
 // caused by logging. Otherwise use the NS serverside execution log.
-var EC = { isClientScript:true}
-if (EC.isClientScript) addAppender(new ConsoleAppender())
-else addAppender(new ExecutionLogAppender())
+if (EC.isClientScript) al.addAppender(new ConsoleAppender())
+else al.addAppender(new ExecutionLogAppender())
 
 

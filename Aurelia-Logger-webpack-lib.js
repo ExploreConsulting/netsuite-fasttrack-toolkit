@@ -289,6 +289,13 @@ var ConsoleAppender = exports.ConsoleAppender = function () {
 
 var aurelia_logging_console_1 = __webpack_require__(1);
 var aurelia_logging_1 = __webpack_require__(0);
+exports.Logger = aurelia_logging_1.Logger;
+exports.logLevel = aurelia_logging_1.logLevel;
+exports.getLogger = aurelia_logging_1.getLogger;
+exports.getLevel = aurelia_logging_1.getLevel;
+exports.setLevel = aurelia_logging_1.setLevel;
+exports.addAppender = aurelia_logging_1.addAppender;
+var al = __webpack_require__(0);
 /**
  * Value to be prepended to each log message title. Defaults to a random 4 digit integer
  * @type {string}
@@ -346,7 +353,7 @@ var ExecutionLogAppender = (function () {
         for (var _i = 1; _i < arguments.length; _i++) {
             rest[_i - 1] = arguments[_i];
         }
-        log.apply(void 0, [aurelia_logging_1.logLevel.debug, logger].concat(rest));
+        log.apply(void 0, [al.logLevel.debug, logger].concat(rest));
     };
     /**
      * Info about info
@@ -358,39 +365,39 @@ var ExecutionLogAppender = (function () {
         for (var _i = 1; _i < arguments.length; _i++) {
             rest[_i - 1] = arguments[_i];
         }
-        log.apply(void 0, [aurelia_logging_1.logLevel.info, logger].concat(rest));
+        log.apply(void 0, [al.logLevel.info, logger].concat(rest));
     };
     ExecutionLogAppender.prototype.warn = function (logger) {
         var rest = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             rest[_i - 1] = arguments[_i];
         }
-        log.apply(void 0, [aurelia_logging_1.logLevel.warn, logger].concat(rest));
+        log.apply(void 0, [al.logLevel.warn, logger].concat(rest));
     };
     ExecutionLogAppender.prototype.error = function (logger) {
         var rest = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             rest[_i - 1] = arguments[_i];
         }
-        log.apply(void 0, [aurelia_logging_1.logLevel.error, logger].concat(rest));
+        log.apply(void 0, [al.logLevel.error, logger].concat(rest));
     };
     return ExecutionLogAppender;
 }());
 exports.ExecutionLogAppender = ExecutionLogAppender;
 // instantiate the default logger and set it's logging level to the most verbose - this is used as
 // the 'main' logger by consumers
-var defaultLogger = aurelia_logging_1.getLogger('default');
-defaultLogger.setLevel(aurelia_logging_1.logLevel.debug);
+var defaultLogger = al.getLogger('default');
+defaultLogger.setLevel(al.logLevel.debug);
 // maps aurelia numeric levels to NS string level names
 function toNetSuiteLogLevel(level) {
     switch (level) {
-        case aurelia_logging_1.logLevel.debug:
+        case al.logLevel.debug:
             return 'debug';
-        case aurelia_logging_1.logLevel.info:
+        case al.logLevel.info:
             return 'audit';
-        case aurelia_logging_1.logLevel.warn:
+        case al.logLevel.warn:
             return 'error';
-        case aurelia_logging_1.logLevel.error:
+        case al.logLevel.error:
             return 'emergency';
     }
 }
@@ -428,9 +435,15 @@ function autoLogMethodEntryExit(methodsToLogEntryExit, config) {
     var withGovernance = config.withGovernance === true;
     // logger on which to autolog, default to the top level 'Default' logger used by scripts
     var logger = config.logger || exports.DefaultLogger;
+    var level = config.logLevel || al.logLevel.debug;
+    var methods = {};
+    methods[al.logLevel.debug] = logger.debug;
+    methods[al.logLevel.info] = logger.info;
+    methods[al.logLevel.warn] = logger.warn;
+    methods[al.logLevel.error] = logger.error;
     return aop.around(methodsToLogEntryExit, function (invocation) {
         // record function entry with details for every method on our explore object
-        log(config.logLevel || aurelia_logging_1.logLevel.debug, logger, "Enter " + invocation.method + "() " + getGovernanceMessage(withGovernance), withArgs ? 'args: ' + JSON.stringify(arguments[0].arguments) : null);
+        methods[level]("Enter " + invocation.method + "() " + getGovernanceMessage(withGovernance), withArgs ? 'args: ' + JSON.stringify(arguments[0].arguments) : null);
         var startTime = moment();
         var retval = invocation.proceed();
         var elapsedMessage;
@@ -440,7 +453,7 @@ function autoLogMethodEntryExit(methodsToLogEntryExit, config) {
                 moment.duration(elapsedMilliseconds).asMinutes().toFixed(2) + " minutes";
         }
         // record function exit for every method on our explore object
-        log(config.logLevel || aurelia_logging_1.logLevel.debug, logger, ["Exit " + invocation.method + "()",
+        methods[level](["Exit " + invocation.method + "()",
             elapsedMessage,
             getGovernanceMessage(withGovernance)].join(' ').trim(), withReturnValue ? "returned: " + JSON.stringify(retval) : null);
         return retval;
@@ -458,11 +471,10 @@ exports.DefaultLogger = defaultLogger;
 exports.setCorrelationId = function (value) { return exports.correlationId = value; };
 // automatically use a browser appender if this is a client script so as to save network round trips
 // caused by logging. Otherwise use the NS serverside execution log.
-var EC = { isClientScript: true };
 if (EC.isClientScript)
-    aurelia_logging_1.addAppender(new aurelia_logging_console_1.ConsoleAppender());
+    al.addAppender(new aurelia_logging_console_1.ConsoleAppender());
 else
-    aurelia_logging_1.addAppender(new ExecutionLogAppender());
+    al.addAppender(new ExecutionLogAppender());
 
 
 /***/ }

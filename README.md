@@ -164,6 +164,10 @@ To create a single file library for referencing in NetSuite
 4. If you experience errors referencing missing items, it is likely that you require additional modules. Google the items mentioned and install them with npm.
 5. Compiled output will be placed in **dist/EC_Libs-\<tagversion\>.js**
 
+Building the logging component requires webpack:
+
+    webpack Logging.js  --output-library LogManager --output-filename Aurelia-Logger-webpack-lib.js --output-library-target var
+
 
 ### Tests ###
 * put tests under the _tests_ folder
