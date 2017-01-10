@@ -168,6 +168,7 @@ Building the logging component requires webpack:
 
     webpack Logging.js  --output-library LogManager --output-filename Aurelia-Logger-webpack-lib.js --output-library-target var
 
+The gulp build does this automatically in code, but the equivalent commandline is above.
 
 ### Tests ###
 * put tests under the _tests_ folder
