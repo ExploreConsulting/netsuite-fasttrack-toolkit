@@ -60,6 +60,8 @@ declare module EC {
      *  {external:"SalesOrd",internal:"salesorder"}
      */
     function getTransactionType(query:{ internal?:string, external?:string }):TransactionType
+
+    var isClientScript:boolean
 }
 
 

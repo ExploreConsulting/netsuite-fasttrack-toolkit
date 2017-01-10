@@ -427,3 +427,9 @@ EC.ItemTypes = {
     Payment: "paymentitem",
     Subtotal: "subtotalitem"
 };
+
+/**
+ * True if the current script is running as a client script
+ * @type {boolean}
+ */
+EC.isClientScript = (nlapiGetContext().getExecutionContext() == 'userinterface') && (typeof nlapiGetNewRecord !== 'function');
