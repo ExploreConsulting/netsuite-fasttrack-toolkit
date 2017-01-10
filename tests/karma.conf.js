@@ -16,15 +16,8 @@ module.exports = function (config) {
             "nlapi.js",
             "node_modules/sinon/pkg/sinon.js",
             "node_modules/sinon-chai/lib/sinon-chai.js",
-            "References/jQueryAOP/src/aop.js",
-            "node_modules/lodash/lodash.js",
-            "node_modules/moment/moment.js",
-            "node_modules/lazy.js/lazy.js",
             "tests/nsApiMocks.js",
-            "EC_SharedLibrary_Common.js",
-            "EC_SharedLibrary_ServerSide.js",
-            "EC_Search.js",
-            "EC_nsdal.js",
+            "dist/EC_Libs-11.0.0.js",
             "tests/*Spec.js"
         ],
 

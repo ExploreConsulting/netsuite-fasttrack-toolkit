@@ -6,7 +6,7 @@
 // main version stamp - gets appended to the build filename
 var version = require("./package.json").version;
 var outdir = "dist";
-
+var webpack = require('webpack')
 var gulp = require('gulp');
 var del = require("del");
 
@@ -29,15 +29,28 @@ var sources = ["References/jQueryAOP/src/aop.js",
     "Aurelia-Logger-webpack-lib.js"
 ];
 
-
+// uses webpack to pull together the aurelia logging stuff and depends into a single global "LogManager" identifier
 gulp.task('logger', function() {
-    return gulp.src(['Logging.js'])
+    var webpackConfig = {
+        output: {
+            library: "LogManager",
+            filename:"Aurelia-Logger-webpack-lib.js"
+        },
+        entry: "./Logging.js"
+    }
+
+    webpack(webpackConfig, function(err,stats){
+      if (err || stats.hasErrors()) {
+          console.warn('errors doing the webpack')
+      }
+      else console.log('webpacked '  + stats.compilation.outputOptions.filename)
+    })
 })
 // build the project to a single file for easy deployment to NetSuite libraries tab, includes several other open source
 // libs
-gulp.task('default',['clean'], function () {
+gulp.task('default',['clean', 'logger'], function () {
     return gulp.src(sources)
-        .pipe($.uglify()) // scrunch them individually
+        //.pipe($.uglify()) // scrunch them individually
         .pipe($.concat("EC_Libs-" + version + ".js")) // combine into a single file w/version stamp
         .pipe(gulp.dest(outdir))
         .pipe($.size()); // outputs a blurb about how many bytes the final result is
