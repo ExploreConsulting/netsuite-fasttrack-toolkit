@@ -26,9 +26,13 @@ var sources = ["References/jQueryAOP/src/aop.js",
     "EC_Search.js",
     "EC_nsdal.js",
     "consoleAppender.js",
-    "EC_Logging.js"
+    "Aurelia-Logger-webpack-lib.js"
 ];
 
+
+gulp.task('logger', function() {
+    return gulp.src(['Logging.js'])
+})
 // build the project to a single file for easy deployment to NetSuite libraries tab, includes several other open source
 // libs
 gulp.task('default',['clean'], function () {

@@ -14,7 +14,6 @@ declare interface Moment {
 declare var moment: Moment
 
 
-
 /**
  * Value to be prepended to each log message title. Defaults to a random 4 digit integer
  * @type {string}
@@ -109,11 +108,14 @@ function toNetSuiteLogLevel(level: number) {
     }
 }
 
-function getGovernanceMessage(governanceEnabled: boolean) {
-    //TODO: figure out why TS doesn't like the type of nlapiGetContext().getRemainingUsage()
+//TODO: figure out why TS doesn't like the type of nlapiGetContext().getRemainingUsage() from
+// @hitc/netsuite-types
+declare function nlapiGetContext(): {getRemainingUsage: () => number}
 
-    return undefined
-    //return governanceEnabled ? `governance: ${remaining}` : undefined
+function getGovernanceMessage(governanceEnabled: boolean) {
+    var units = nlapiGetContext().getRemainingUsage()
+    //return {units: units, percent: Math.round((units / this.initialUnits) * 100)}
+    return governanceEnabled ? `governance: ${units}` : undefined
 }
 
 /**
@@ -135,6 +137,7 @@ function getGovernanceMessage(governanceEnabled: boolean) {
 export function autoLogMethodEntryExit(methodsToLogEntryExit: {target: Object, method: string | RegExp},
                                        config?: AutoLogConfig) {
 
+    methodsToLogEntryExit = methodsToLogEntryExit || {target: EC, method: /\w+/}
     if (!config) config = {}
     // include method parameters by default
     let withArgs = config.withArgs !== false
@@ -148,15 +151,18 @@ export function autoLogMethodEntryExit(methodsToLogEntryExit: {target: Object, m
     let logger = config.logger || DefaultLogger
 
     let level = config.logLevel || al.logLevel.debug
+
+    //TODO: think of a cleaner way to do this
+    // this is map from numeric log levels to them method names we need to call on the logger instance
     let methods = {}
-    methods[al.logLevel.debug] = logger.debug
-    methods[al.logLevel.info] = logger.info
-    methods[al.logLevel.warn] = logger.warn
-    methods[al.logLevel.error] = logger.error
+    methods[al.logLevel.debug] = 'debug'
+    methods[al.logLevel.info] = 'info'
+    methods[al.logLevel.warn] = 'warn'
+    methods[al.logLevel.error] = 'error'
 
     return aop.around(methodsToLogEntryExit, function (invocation) {
         // record function entry with details for every method on our explore object
-        methods[level](`Enter ${invocation.method}() ${getGovernanceMessage(withGovernance)}`,
+        logger[methods[level]](`Enter ${invocation.method}() ${getGovernanceMessage(withGovernance)}`,
             withArgs ? 'args: ' + JSON.stringify(arguments[0].arguments) : null)
         let startTime = moment()
         let retval = invocation.proceed()
@@ -167,7 +173,7 @@ export function autoLogMethodEntryExit(methodsToLogEntryExit: {target: Object, m
                 moment.duration(elapsedMilliseconds).asMinutes().toFixed(2) + " minutes";
         }
         // record function exit for every method on our explore object
-        methods[level]([`Exit ${invocation.method}()`,
+        logger[methods[level]]([`Exit ${invocation.method}()`,
                 elapsedMessage,
                 getGovernanceMessage(withGovernance)].join(' ').trim(),
             withReturnValue ? "returned: " + JSON.stringify(retval) : null);
