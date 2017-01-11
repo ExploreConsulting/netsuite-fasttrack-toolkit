@@ -322,19 +322,20 @@ function log(loglevel, logger) {
     var title = rest[0], details = rest[1];
     var prefix = '';
     if (exports.includeCorrelationId === true) {
-        prefix += exports.correlationId + ">";
+        prefix += exports.correlationId + "> ";
     }
     // prefix all loggers except the 'default' one used by top level code
     if (logger.id !== 'default') {
-        prefix += "[" + logger.id + "]";
+        prefix += "[" + logger.id + "] ";
     }
     // NetSuite now supports logging js objects but does not log properties from the prototype chain. This is
     // basically how JSON.stringify() works so I presume they are doing that?
     // To cover the most common use case of logging an object to see its properties, first convert to
     // a plain object if it's not one already.
-    if (typeof details !== "string")
+    if (details && typeof details !== "string") {
         details = JSON.stringify(details);
-    nlapiLogExecution(toNetSuiteLogLevel(loglevel), prefix + " " + title, details);
+    }
+    nlapiLogExecution(toNetSuiteLogLevel(loglevel), "" + prefix + title, details);
 }
 /**
  * Log appender targeting the NS execution log
