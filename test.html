@@ -1,0 +1,29 @@
+<!--this is a test file for working with the new logger in a web page-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+//   need this global because it do dah
+    var EC = { isClientScript:true}
+</script>
+<!--we need aop and moment to appear as a global, as it does in the compiled EC_Libs-->
+<script src="References/jQueryAOP/src/aop.js"></script>
+<script src="node_modules/moment/moment.js"></script>
+<!--this is a webpack of the aurelia logger, the console appender, and our NS appender
+ It exposes a single global named "LogManager"
+-->
+<script src="Aurelia-Logger-webpack-lib.js"></script>
+
+<script>
+    var log = LogManager.DefaultLogger
+
+    log.debug('hello world')
+</script>
+
+</body>
+</html>
