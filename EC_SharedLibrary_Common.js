@@ -4,9 +4,7 @@
  * Utility library with functions that can be used for both client and server side SuiteScript
  */
 // declare Explore 'namespace' if it's not already defined
-if (typeof EC == "undefined" || !EC) {
-    var EC = {};
-}
+var EC = EC | {};
 
 /**
  * Represents US states. First one is blank I presume to allow easy binding to a UI dropdown?

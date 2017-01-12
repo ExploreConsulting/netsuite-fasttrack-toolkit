@@ -2,7 +2,7 @@
  * TypeScript declarations for EC_SharedLibrary_Common.js (these are also used in pure JS for documentation
  * and code-assist in Webstorm
  */
-export declare namespace EC {
+declare namespace EC {
 
     /**
      * Represents a state in 3 different ways - full name, NS internal id or two-letter abbreviation

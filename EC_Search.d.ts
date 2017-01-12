@@ -8,7 +8,7 @@
  */
 
 ///<reference path="node_modules/@types/lazy.js/index.d.ts"/>
-
+///<reference path="EC_SharedLibrary_Common.d.ts"/>
 export namespace EC {
     /**
      * the native netsuite nlobjSearch object.

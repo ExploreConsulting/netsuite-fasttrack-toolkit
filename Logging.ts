@@ -5,6 +5,8 @@
 
 import {ConsoleAppender} from "aurelia-logging-console"
 
+declare var aop:any;
+
 export {Logger, Appender, logLevel, getLogger, getLevel, setLevel, addAppender} from "aurelia-logging"
 import * as al from "aurelia-logging"
 //TODO: figure out why @types/moment declarations aren't resolved here
