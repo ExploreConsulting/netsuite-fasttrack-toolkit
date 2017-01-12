@@ -3,8 +3,8 @@
  *
  * Utility library with functions that can be used for both client and server side SuiteScript
  */
-// declare Explore 'namespace' if it's not already defined
-var EC = EC | {};
+// declare Explore 'namespace' - this should only happen once here in this file.
+var EC = {};
 
 /**
  * Represents US states. First one is blank I presume to allow easy binding to a UI dropdown?
