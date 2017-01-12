@@ -1,12 +1,13 @@
 /**
- * Created by shawn on 1/6/17.
+ * Logger implementation based on the implementation in NFT-SS2
+ * This file gets webpacked to become self contained and exposes all exports as a global property 'LogManager'
  */
 
 import {ConsoleAppender} from "aurelia-logging-console"
 
 export {Logger, Appender, logLevel, getLogger, getLevel, setLevel, addAppender} from "aurelia-logging"
 import * as al from "aurelia-logging"
-
+//TODO: figure out why @types/moment declarations aren't resolved here
 declare interface Moment {
     (): any
     duration: any

@@ -235,7 +235,7 @@ nsdal.addFieldProperties = function (/*nlobjRecord*/ theRecord, /*Array*/ propNa
         } catch (e) {
             // include the field name we were working with to aid diagnosing the error
             if (e.constructor === TypeError) {
-                Log.e("addFieldProperties() error", "possibly invalid field name: '" + name + "'");
+                log.error("addFieldProperties() error", "possibly invalid field name: '" + name + "'");
             }
             throw e;
         }
@@ -361,10 +361,10 @@ nsdal.withSublist = function (listname, propNames) {
 
         var currentLineCount = this.parent.getLineItemCount(listname);
         var insertLinePosition = parseInt(currentLineCount) + 1;
-        Log.d("Inserting Line Item", "sublist: '" + listname + "' line: " + insertLinePosition);
+        log.debug("Inserting Line Item", "sublist: '" + listname + "' line: " + insertLinePosition);
 
         this.parent.insertLineItem(listname, parseInt(insertLinePosition));
-        Log.d("Line count after adding:" + this.parent.getLineItemCount(listname));
+        log.debug("Line count after adding:" + this.parent.getLineItemCount(listname));
 
         return this.addNewLineItem(insertLinePosition, this.parent);
     };
@@ -372,7 +372,7 @@ nsdal.withSublist = function (listname, propNames) {
      * calls record.commitLineItem() for this sublist. When adding new lines you don't need to call this method
      */
     list.commitLine = function () {
-        Log.d("Committing line on list '" + listname + "'");
+        log.debug("Committing line on list '" + listname + "'");
         this.parent.commitLineItem(listname);
     };
     return this; // for chaining

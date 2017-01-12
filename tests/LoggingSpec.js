@@ -1,7 +1,7 @@
 /**
  * Created by shawn on 1/10/17.
  */
-describe('New Logger', function () {
+describe('Logging', function () {
     var log = LogManager.DefaultLogger
     /**
      * This function is used by tests - simply returns whatever is passed to it (identity function)
@@ -345,7 +345,7 @@ describe('New Logger', function () {
 
             LogManager.includeCorrelationId = true;
 
-            dump('correlation id: ' + Log.correlationId);
+            dump('correlation id: ' + LogManager.correlationId);
 
             // make several calls to the logger, all should have the same correlation id
             log.debug('hello world');
@@ -366,7 +366,111 @@ describe('New Logger', function () {
             LogManager.includeCorrelationId = true;
             // set custom correlation id
             LogManager.correlationId = "myid";
-            dump('correlation id: ' + Log.correlationId);
+            dump('correlation id: ' + LogManager.correlationId);
+
+            log.debug('hello world');
+
+            global.nlapiLogExecution.should.have.been.calledOnce;
+            global.nlapiLogExecution.firstCall.args[1].should.contain('myid>');
+            dump(global.nlapiLogExecution.firstCall.args[1]);
+        });
+
+    });
+
+    // Multiple loggers can be used and configured with different log levels
+    describe("Multiple loggers", function () {
+
+        afterEach(function () {
+        });
+
+        it('basic logging', function () {
+            // default logger is named 'log' with logger name 'default' with loglevel 'debug'
+            log.debug('hello world');
+
+            global.nlapiLogExecution.should.have.been.calledOnce;
+
+        });
+
+
+        it('can define multiple independent named loggers', function () {
+
+            // get a logger with the name 'foo'
+            var fooLogger = LogManager.getLogger('foo')
+            // get another logger with the name 'bar'
+            var barLogger = LogManager.getLogger('bar')
+
+            fooLogger.setLevel(LogManager.logLevel.warn)
+            barLogger.setLevel(LogManager.logLevel.info)
+
+            // no NS log methods should have been invoked at this point
+            global.nlapiLogExecution.should.not.have.been.called;
+
+            // the loggers should have different logging levels
+            fooLogger.level.should.be.equal(LogManager.logLevel.warn)
+            barLogger.level.should.be.equal(LogManager.logLevel.info)
+        });
+
+        it('separate loggers have different log levels', function () {
+
+            // get a logger with the name 'foo'
+            var fooLogger = LogManager.getLogger('foo')
+            // get another logger with the name 'bar'
+            var barLogger = LogManager.getLogger('bar')
+
+            fooLogger.setLevel(LogManager.logLevel.warn)
+            barLogger.setLevel(LogManager.logLevel.info)
+
+            // invoke foo logger with level > warning so it should log
+            fooLogger.error('an error!')
+
+            // invoke barLogger with a level < info so it should NOT log anything
+            barLogger.debug('debugging!')
+
+            global.nlapiLogExecution.should.have.been.calledOnce;
+            // log title
+            global.nlapiLogExecution.firstCall.args[1].should.contain('[foo]');
+
+        });
+
+        it('logs with random correlation id when requested', function () {
+
+            LogManager.includeCorrelationId = true;
+
+            dump('correlation id: ' + LogManager.correlationId);
+
+            log.debug('hello world');
+
+            global.nlapiLogExecution.should.have.been.calledOnce;
+            global.nlapiLogExecution.firstCall.args[1].should.contain(LogManager.correlationId + '>');
+            dump(global.nlapiLogExecution.firstCall.args[1]);
+        });
+
+        it('maintains the same correlation id across multiple log calls', function () {
+
+            LogManager.includeCorrelationId = true;
+
+            dump('correlation id: ' + LogManager.correlationId);
+
+            // make several calls to the logger, all should have the same correlation id
+            log.debug('hello world');
+            log.info('here I am');
+            log.warn('again!');
+
+            global.nlapiLogExecution.should.have.been.calledThrice;
+
+            dump(global.nlapiLogExecution.firstCall.args);
+            dump(global.nlapiLogExecution.secondCall.args);
+            dump(global.nlapiLogExecution.thirdCall.args);
+            var detailsShouldMatch = new RegExp(LogManager.correlationId + '>');
+            assert(global.nlapiLogExecution.alwaysCalledWithMatch(sinon.match.any, detailsShouldMatch));
+        });
+
+        it('can use a custom correlation id', function () {
+
+            LogManager.includeCorrelationId = true;
+            // set custom correlation id
+            LogManager.correlationId = "myid";
+            dump('correlation id: ' + LogManager.correlationId);
 
             log.debug('hello world');
 

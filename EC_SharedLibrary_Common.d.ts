@@ -2,7 +2,7 @@
  * TypeScript declarations for EC_SharedLibrary_Common.js (these are also used in pure JS for documentation
  * and code-assist in Webstorm
  */
-declare module EC {
+export declare namespace EC {
 
     /**
      * Represents a state in 3 different ways - full name, NS internal id or two-letter abbreviation
@@ -61,8 +61,20 @@ declare module EC {
      */
     function getTransactionType(query:{ internal?:string, external?:string }):TransactionType
 
+    /**
+     * True if the current script is running as a client script
+     * @type {boolean} true if the current script is a client script, false otherwise
+     */
     var isClientScript:boolean
+
+    /**
+     * Takes an exception of several types and parses details of the message into a friendly string
+     * Handles some advanced cases like capturing a stack trace if available.
+     * @param e the exception
+     */
+    function getExceptionDetail(e: Object|Error): string
 }
+
 
 
 

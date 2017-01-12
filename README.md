@@ -79,7 +79,7 @@ Add the library to your project
     .take(10000) // process only the first 10000
     .map(function(customer) {
         // log the phone number field of each customer
-        Log.d('customer phone', customer.phone)
+        log.debug('customer phone', customer.phone)
     }).toArray()
 
 ```

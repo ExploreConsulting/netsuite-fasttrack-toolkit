@@ -22,11 +22,10 @@ var sources = ["References/jQueryAOP/src/aop.js",
     "node_modules/lazy.js/lazy.js",
     "workarounds.js",
     "EC_SharedLibrary_Common.js",
-    "EC_SharedLibrary_ServerSide.js",
+    "Aurelia-Logger-webpack-lib.js",
+    "EC_Defaults.js",
     "EC_Search.js",
-    "EC_nsdal.js",
-    "consoleAppender.js",
-    "Aurelia-Logger-webpack-lib.js"
+    "EC_nsdal.js"
 ];
 
 // uses webpack to pull together the aurelia logging stuff and depends into a single global "LogManager" identifier

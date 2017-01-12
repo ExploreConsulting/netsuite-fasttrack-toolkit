@@ -4,12 +4,12 @@
  * @description Contains a lazy search implementation based on lazyjs.
  *
  *
- * Dependencies: Lazy.js, EC_SharedLibrary_ServerSide.js
+ * Dependencies: Lazy.js, Logging.js
  */
 
-///<reference path="typings/browser.d.ts"/>
+///<reference path="node_modules/@types/lazy.js/index.d.ts"/>
 
-declare module EC {
+export namespace EC {
     /**
      * the native netsuite nlobjSearch object.
      */

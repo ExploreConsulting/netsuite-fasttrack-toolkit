@@ -255,3 +255,49 @@ describe('item type lookup', function() {
     });
 
 });
+
+
+describe('getExceptionDetail', function () {
+
+    it('should handle native javascript Error objects', function () {
+        var error = new Error("error message","123");
+        var result = EC.getExceptionDetail(error);
+
+        result.should.contain("error message");
+        // an Error object should include a stack trace
+        result.should.contain("at");
+    });
+
+    it('should handle plain string exception', function () {
+
+        var result = EC.getExceptionDetail("some plain string exception");
+
+        result.should.contain("some plain string exception");
+        // a plain string should not include a stack trace
+        result.should.contain("no stack trace");
+
+    });
+
+    it('should handle NS nlobjError objects', function () {
+
+        var error = new nlobjError();
+
+        sinon.stub(error, 'getStackTrace').returns(["at some line in the stack trace"]);
+        sinon.stub(error, 'toString').returns("some netsuite error object");
+
+        var result = EC.getExceptionDetail(error);
+        result.should.contain("some netsuite error object");
+        // an nlobjError object should include a stack trace
+        result.should.contain("at");
+    });
+
+    it('should handle other native javascript objects', function () {
+        var error = new TypeError();
+        error.message = "invalid syntax";
+        var result = EC.getExceptionDetail(error);
+
+        result.should.contain("invalid syntax");
+        // this sort of error should include a stack trace
+        result.should.contain("at");
+    });
+});

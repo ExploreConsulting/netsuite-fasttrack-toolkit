@@ -428,8 +428,18 @@ EC.ItemTypes = {
     Subtotal: "subtotalitem"
 };
 
-/**
- * True if the current script is running as a client script
- * @type {boolean}
- */
 EC.isClientScript = (nlapiGetContext().getExecutionContext() == 'userinterface') && (typeof nlapiGetNewRecord !== 'function');
+
+/**
+ * Extracts as much useful debugging info as possible from exception types NetSuite likes to throw
+ * @param e the exception to interrogate
+ * @returns {string} a string containing error details, including stack trace info if available.
+ */
+EC.getExceptionDetail = function (e) {
+    var detail = e.toString() + " \n";
+    if (e.stack) detail += e.stack;
+    else if (_.isFunction(e.getStackTrace)) detail += e.getStackTrace().join();
+    else detail += "[no stack trace]";
+    return detail;
+};
+

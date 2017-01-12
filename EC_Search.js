@@ -4,7 +4,7 @@
  * @description Contains a lazy search implementation based on lazyjs.
  *
  *
- * Dependencies: Lazy.js, EC_SharedLibrary_ServerSide.js
+ * Dependencies: Lazy.js, Logging.js
  */
 
 /**
@@ -14,7 +14,7 @@ if (!console) {
     var console = {
         //noinspection JSUnusedGlobalSymbols
         warn: function (m) {
-            Log.e(m);
+            log.error(m);
         }
     };
 }
@@ -81,7 +81,7 @@ EC.enableLazySearch = function () {
     SearchIterator.prototype.moveNext = function () {
         var lastIndex = this.slice.length - 1;
         if (this.isLastPage && this.currentIndex >= lastIndex) {
-            Log.d("on last page, current index:" + this.currentIndex + " >= lastIndex:" + lastIndex);
+            log.debug("on last page, current index:" + this.currentIndex + " >= lastIndex:" + lastIndex);
             return false;
         }
         else if (this.currentIndex < lastIndex) {
@@ -90,7 +90,7 @@ EC.enableLazySearch = function () {
         }
         else {
             var newStartIndex = (this.sliceSize * this.currentPage);
-            Log.d("loading results from " + newStartIndex + " to " + (newStartIndex + this.sliceSize));
+            log.debug("loading results from " + newStartIndex + " to " + (newStartIndex + this.sliceSize));
             // if no results are found, NS returns null. Surface that as an empty sequence.
             this.slice = this.search.getResults(newStartIndex, newStartIndex + this.sliceSize) || [];
             var sliceLength = this.slice.length;
@@ -207,7 +207,7 @@ EC.enableLazySearch = function () {
         if ( results && results.length === 1 )
             return parseInt( results[0].getValue(countColumn) || 0 );
         else {
-            Log.e('getTotalRecordCount()', 'failed to determine the number of records in the result set');
+            log.error('getTotalRecordCount()', 'failed to determine the number of records in the result set');
             return results;
         }
     };
