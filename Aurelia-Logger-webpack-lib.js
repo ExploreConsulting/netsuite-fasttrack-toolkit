@@ -69,7 +69,7 @@ var LogManager =
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -214,9 +214,9 @@ var Logger = exports.Logger = function () {
   return Logger;
 }();
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -278,9 +278,9 @@ var ConsoleAppender = exports.ConsoleAppender = function () {
   return ConsoleAppender;
 }();
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /**
@@ -481,5 +481,5 @@ else
     al.addAppender(new ExecutionLogAppender());
 
 
-/***/ }
+/***/ })
 /******/ ]);

@@ -30,7 +30,7 @@
     "sinon": "^1.12.2",
     "sinon-chai": "^2.7.0",
     "typescript": "^2.1.0",
-    "webpack": "^2.2.0-rc.3"
+    "webpack": "^2.2.0-rc.4"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,8 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
+    "aurelia-logging": "^1.2.0",
+    "aurelia-logging-console": "^1.0.0",
     "lazy.js": "^0.4.2",
     "lodash": "^4.6.1",
     "moment": "^2.12.0"

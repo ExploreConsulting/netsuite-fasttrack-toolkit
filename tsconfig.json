@@ -7,7 +7,6 @@
     "noImplicitAny": false,
     "sourceMap": false,
     "allowJs": true
-    //"types": ["node_modules/aurelia-logging/dist/aurelia-logging.d.ts"]
   },
   "exclude": [
     "node_modules"
