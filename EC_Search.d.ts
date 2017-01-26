@@ -1,3 +1,4 @@
+import {Logger} from "aurelia-logging";
 /**
  * NetSuite Search utilities here.
  *
@@ -9,7 +10,12 @@
 
 ///<reference path="node_modules/@types/lazy.js/index.d.ts"/>
 ///<reference path="EC_SharedLibrary_Common.d.ts"/>
-export namespace EC {
+
+/**
+ * main namespace for lazy search functionality. Access the lazy search features (and the lazy specific logger)
+ * through this namespace object.
+ */
+export namespace lazy {
     /**
      * the native netsuite nlobjSearch object.
      */
@@ -27,12 +33,6 @@ export namespace EC {
      * [ 'firstname', 'contains', 'joe' ]
      */
     type SearchFilterExpression = Array<any> | string
-
-    /**
-     * Call this method to bring in the lazy searching code so you can call
-     * Lazy().xxxSearch(...)
-     */
-    function enableLazySearch():void
 
     /**
      * Custom LazyJS sequence that handles forward iteration through NetSuite search results
@@ -84,4 +84,9 @@ export namespace EC {
      * @param  filters query (filter expression or array of filter objs) you want to perform a count on
      */
     function getTotalRecordCount(recordtype:string, filters:Array<SearchFilterExpression>):number|Array<Object>
+
+    /**
+     * Custom logger named 'lazysearch' for this component
+     */
+    let log:Logger
 }

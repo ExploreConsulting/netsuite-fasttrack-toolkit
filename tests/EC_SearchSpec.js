@@ -84,9 +84,7 @@ describe("Lazy Search", function () {
         nlapiCreateSearch.returns(nSearch);
         //endregion
 
-        EC.enableLazySearch(); // required to bing the search functions into scope on the EC object
-
-        var s = EC.createSearch("transaction", [
+        var s = lazy.createSearch("transaction", [
             ["amount", "greaterthan", "0"]
         ], [
             ["internalid"],
@@ -128,9 +126,7 @@ describe("Lazy Search", function () {
         nlapiCreateSearch.returns(nSearch);
         //endregion
 
-        EC.enableLazySearch(); // required to bing the search functions into scope on the EC object
-
-        var s = EC.createSearch("ignored", [[]]
+        var s = lazy.createSearch("ignored", [[]]
             , [
             ["internalid"],
             ["amount"]
@@ -157,10 +153,7 @@ describe("Lazy Search", function () {
 
         nlapiLoadSearch.returns(nSearch);
         //endregion
-
-        EC.enableLazySearch(); // required to bing the search functions into scope on the EC object
-
-        var s = EC.loadSearch("ignored", 123);
+        var s = lazy.loadSearch("ignored", 123);
 
         var stringified = JSON.stringify(s);
       //  dump(stringified);
@@ -181,10 +174,7 @@ describe("Lazy Search", function () {
         nSearchResultSet.getResults = sinon.stub().returns(generatedResults);
 
         //endregion
-
-        EC.enableLazySearch(); // required to bing the search functions into scope on the EC object
-
-        var s = EC.fromSearch(nSearch);
+        var s = lazy.fromSearch(nSearch);
 
         var stringified = JSON.stringify(s);
       //  dump(stringified);
@@ -214,10 +204,7 @@ describe("Lazy Search", function () {
             nSearchResultSet.getColumns = sinon.stub().returns([fakeColumn("foo")]);
             nlapiCreateSearch.returns(nSearch);
             //endregion
-
-            EC.enableLazySearch(); // required to bing the search functions into scope on the EC object
-
-            var s = EC.createSearch("transaction", [
+            var s = lazy.createSearch("transaction", [
                 ["amount", "greaterthan", "0"]
             ], [
                 ["notused"] // the fakecolumn mapping above overrides what is passed here
@@ -245,10 +232,7 @@ describe("Lazy Search", function () {
             nSearchResultSet.getColumns = sinon.stub().returns([fakeColumn("foo")]);
             nlapiCreateSearch.returns(nSearch);
             //endregion
-
-            EC.enableLazySearch(); // required to bing the search functions into scope on the EC object
-
-            var s = EC.createSearch("transaction", [
+            var s = lazy.createSearch("transaction", [
                 ["amount", "greaterthan", "0"]
             ], [
                 ["notused"] // the fakecolumn mapping above overrides what is passed here
@@ -289,10 +273,7 @@ describe("Lazy Search", function () {
             ]);
             nlapiCreateSearch.returns(nSearch);
             //endregion
-
-            EC.enableLazySearch(); // required to bing the search functions into scope on the EC object
-
-            var s = EC.createSearch("transaction", [
+             var s = lazy.createSearch("transaction", [
                 ["amount", "greaterthan", "0"]
             ], [
                 ["notused"] // the fakecolumn mapping above overrides what is passed here
@@ -330,10 +311,7 @@ describe("Lazy Search", function () {
             nSearchResultSet.getColumns = sinon.stub().returns([fakeColumn("foo")]);
             nlapiCreateSearch.returns(nSearch);
             //endregion
-
-            EC.enableLazySearch(); // required to bing the search functions into scope on the EC object
-
-            var s = EC.createSearch("transaction", [
+           var s = lazy.createSearch("transaction", [
                 ["amount", "greaterthan", "0"]
             ], [
                 ["notused"] // the fakecolumn mapping above overrides what is passed here
@@ -361,8 +339,7 @@ describe("Lazy Search", function () {
             nlapiSearchRecord.returns([searchResult]);
             //endregion
 
-            EC.enableLazySearch();
-            var resultCount  = EC.getTotalRecordCount('recordtype', [['some', 'filter', 'expression']]);
+            var resultCount  = lazy.getTotalRecordCount('recordtype', [['some', 'filter', 'expression']]);
 
             resultCount.should.be.a('number');
             resultCount.should.equal(5);
@@ -375,8 +352,7 @@ describe("Lazy Search", function () {
             nlapiSearchRecord.returns(null);
             //endregion
 
-            EC.enableLazySearch();
-            var resultCount = EC.getTotalRecordCount('recordtype', [['some', 'filter', 'expression']]);
+            var resultCount = lazy.getTotalRecordCount('recordtype', [['some', 'filter', 'expression']]);
 
             // expect null - this is less disrupting than throwing an exception. The idea is failure to get the
             // count of records may not be a truly exceptional condition and for some use cases record count
@@ -394,8 +370,7 @@ describe("Lazy Search", function () {
             nlapiSearchRecord.returns([searchResult]);
             //endregion
 
-            EC.enableLazySearch();
-            var resultCount = EC.getTotalRecordCount('recordtype', [['some', 'filter', 'expression']]);
+            var resultCount = lazy.getTotalRecordCount('recordtype', [['some', 'filter', 'expression']]);
 
             resultCount.should.be.a('number');
             // NaN returned by the underlying search should should be coerced to zero rows, which is true.

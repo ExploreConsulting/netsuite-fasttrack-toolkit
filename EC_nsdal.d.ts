@@ -5,6 +5,7 @@
 ///<reference path="nlapi.d.ts"/>
 
 
+import {Logger} from "aurelia-logging";
 /**
  * ActiveRecord object. Supports direct property access for NS fields and has a save() method to persist changes.
  */
@@ -85,8 +86,16 @@ declare interface nsdal {
      * @type {boolean} true if this is a client script, else false.
      */
     isClientScript:boolean
+
+    /**
+     * Logger for ?NSDAL named 'nsdal'. call .setLevel(LogManager.logLevel.debug) to turn on debug logging for nsdal
+     */
+    log:Logger
 }
 
-declare var nsdal:nsdal
+/**
+ * global nsdal variable - main namespace for NetSuite Data Access Layer functionality.
+ */
+declare const nsdal:nsdal
 
 

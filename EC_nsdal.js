@@ -55,10 +55,7 @@ if (!nsdal) {
             "viewSubrecord",
             "removeSubrecord",
             "commitLineItem"],
-        /**
-         * Logger for ?NSDAL named 'nsdal'. call .setLevel(LogManager.logLevel.debug) to turn on debug logging for nsdal
-         */
-        log: LogManager.getLogger('nsdal')
+       log: LogManager.getLogger('nsdal')
     };
 }
 
