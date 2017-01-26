@@ -54,7 +54,11 @@ if (!nsdal) {
             "editSubrecord",
             "viewSubrecord",
             "removeSubrecord",
-            "commitLineItem"]
+            "commitLineItem"],
+        /**
+         * Logger for ?NSDAL named 'nsdal'. call .setLevel(LogManager.logLevel.debug) to turn on debug logging for nsdal
+         */
+        log: LogManager.getLogger('nsdal')
     };
 }
 
@@ -235,7 +239,7 @@ nsdal.addFieldProperties = function (/*nlobjRecord*/ theRecord, /*Array*/ propNa
         } catch (e) {
             // include the field name we were working with to aid diagnosing the error
             if (e.constructor === TypeError) {
-                log.error("addFieldProperties() error", "possibly invalid field name: '" + name + "'");
+                nsdal.log.error("addFieldProperties() error", "possibly invalid field name: '" + name + "'");
             }
             throw e;
         }
@@ -243,6 +247,7 @@ nsdal.addFieldProperties = function (/*nlobjRecord*/ theRecord, /*Array*/ propNa
 
     // preserve the original non-javascript record reference,
     // as it doesn't behave quite like a native javascript object
+    nsdal.log.debug('adding [nlobjRecord] property to nsdal object')
     Object.defineProperty(obj, 'nlobjRecord',
         {
             value: theRecord,
@@ -257,6 +262,7 @@ nsdal.addFieldProperties = function (/*nlobjRecord*/ theRecord, /*Array*/ propNa
 
 nsdal.save = function (doSourcing, ignoreMandatoryFields) {
     // netsuite expects only the base type (nlobjRecord) to be passed to SubmitRecord()
+    nsdal.log.info('saving record', 'doSourcing:' + doSourcing + ' ignoreMandatoryFields:' + ignoreMandatoryFields)
     return nlapiSubmitRecord(this.nlobjRecord, doSourcing, ignoreMandatoryFields);
 };
 
@@ -277,7 +283,7 @@ nsdal.fromRecord = function (theRecord, propNames) {
         if (func) // some methods aren't supported clientside
             obj[name] = func.bind(theRecord);
     });
-
+    nsdal.log.info('nsdal object loaded or created sucessfully')
     return obj;
 };
 
@@ -361,10 +367,10 @@ nsdal.withSublist = function (listname, propNames) {
 
         var currentLineCount = this.parent.getLineItemCount(listname);
         var insertLinePosition = parseInt(currentLineCount) + 1;
-        log.debug("Inserting Line Item", "sublist: '" + listname + "' line: " + insertLinePosition);
+        nsdal.log.debug("Inserting Line Item", "sublist: '" + listname + "' line: " + insertLinePosition);
 
         this.parent.insertLineItem(listname, parseInt(insertLinePosition));
-        log.debug("Line count after adding:" + this.parent.getLineItemCount(listname));
+        nsdal.log.debug("Line count after adding:" + this.parent.getLineItemCount(listname));
 
         return this.addNewLineItem(insertLinePosition, this.parent);
     };
@@ -372,7 +378,7 @@ nsdal.withSublist = function (listname, propNames) {
      * calls record.commitLineItem() for this sublist. When adding new lines you don't need to call this method
      */
     list.commitLine = function () {
-        log.debug("Committing line on list '" + listname + "'");
+        nsdal.log.debug("Committing line on list '" + listname + "'");
         this.parent.commitLineItem(listname);
     };
     return this; // for chaining
