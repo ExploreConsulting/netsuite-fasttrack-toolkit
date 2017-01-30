@@ -15,7 +15,7 @@ import {Logger} from "aurelia-logging";
  * main namespace for lazy search functionality. Access the lazy search features (and the lazy specific logger)
  * through this namespace object.
  */
-export namespace lazy {
+declare namespace lazy {
     /**
      * the native netsuite nlobjSearch object.
      */
