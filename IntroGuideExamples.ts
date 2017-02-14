@@ -1,7 +1,8 @@
 
 //region logging example
 declare var log
-declare var LogManager
+///<reference path="Logging.d.ts"/>
+
 
 var customer = nlapiLoadRecord('customer', '1234')
 

@@ -3,9 +3,8 @@
  */
 
 ///<reference path="nlapi.d.ts"/>
+///<reference path="Logging.d.ts"/>
 
-
-import {Logger} from "aurelia-logging";
 /**
  * ActiveRecord object. Supports direct property access for NS fields and has a save() method to persist changes.
  */
@@ -90,7 +89,7 @@ declare interface nsdal {
     /**
      * Logger for ?NSDAL named 'nsdal'. call .setLevel(LogManager.logLevel.debug) to turn on debug logging for nsdal
      */
-    log:Logger
+    log:LogManager.Logger
 }
 
 /**

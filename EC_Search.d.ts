@@ -1,4 +1,5 @@
-import {Logger} from "aurelia-logging";
+///<reference path="Logging.d.ts"/>
+
 /**
  * NetSuite Search utilities here.
  *
@@ -88,5 +89,5 @@ declare namespace lazy {
     /**
      * Custom logger named 'lazysearch' for this component
      */
-    let log:Logger
+    let log:LogManager.Logger
 }
