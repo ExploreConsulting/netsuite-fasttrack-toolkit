@@ -1,6 +1,5 @@
 
 //region logging example
-declare var log
 ///<reference path="Logging.d.ts"/>
 
 

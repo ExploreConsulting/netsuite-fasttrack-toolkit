@@ -234,3 +234,10 @@ declare namespace LogManager {
      */
     const DefaultLogger: Logger
 }
+
+/**
+ * create a globally available alias to the default logger so devs don't have to add this line to each script.
+ * This logger has the key name 'default'. Use this a the main logger in your script.
+ * Note the implementation for this is in EC_Defaults.js - put putting the declaration here for convenience.
+ */
+declare const log: LogManager.Logger
