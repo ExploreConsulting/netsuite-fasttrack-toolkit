@@ -139,7 +139,7 @@ function getGovernanceMessage(governanceEnabled: boolean) {
  * @param {number} [config.logType] the logging level to use, logLevel.debug, logLevel.info, etc.
  * @returns {} an array of jquery aop advices
  */
-export function autoLogMethodEntryExit(methodsToLogEntryExit: {target: Object, method: string | RegExp},
+export function autoLogMethodEntryExit(methodsToLogEntryExit?: {target: Object, method: string | RegExp},
                                        config?: AutoLogConfig) {
 
     methodsToLogEntryExit = methodsToLogEntryExit || {target: EC, method: /\w+/}
