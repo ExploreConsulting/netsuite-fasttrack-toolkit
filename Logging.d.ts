@@ -29,14 +29,14 @@ declare namespace LogManager {
      * Value to be prepended to each log message title. Defaults to a random 4 digit integer
      * @type {string}
      */
-    const correlationId: string;
+    let correlationId: string;
     /**
      * if true then log message include a random integer (or your custom) prefix to each log entry title.
      * which is fixed for the duration of this script run. This can be used to correlate between different runs
      * of the same script (e.g. multiple runs of a scheduled script or discerning between multiple simultaneous calls
      * to a RESTlet or Suitelet)
      */
-    const includeCorrelationId: boolean;
+    let includeCorrelationId: boolean;
 
     /**
      * Specifies the available logging levels.
