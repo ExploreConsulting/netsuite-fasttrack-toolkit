@@ -17,7 +17,7 @@ module.exports = function (config) {
             "node_modules/sinon/pkg/sinon.js",
             "node_modules/sinon-chai/lib/sinon-chai.js",
             "tests/nsApiMocks.js",
-            "dist/EC_Libs-12.0.0.js",
+            "dist/EC_Libs-12.1.0.js",
             "tests/*Spec.js"
         ],
 
