@@ -85,17 +85,18 @@ Add the library to your project
 
 
 ## TypeScript (optional)
-The library is written in Javascript but you can use it with TypeScript. Typings are managed with the [typings](https://github.com/typings/typings) tool.
+The library is written in Javascript but you can use it with TypeScript 2.x. 
 
-Install typescript declarations:
-
-    typings install
 
 Examples using TypeScript:
 
 ### Load a customer record (TS)
 
+
 ```typescript
+
+   ///<reference path="node_modules/netsuite-fasttrack-toolkit/index.d.ts"/>
+
   interface Customer {
         companyname:string
         phone:string

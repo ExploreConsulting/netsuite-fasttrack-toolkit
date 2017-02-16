@@ -9,7 +9,6 @@
  * Dependencies: Lazy.js, Logging.js
  */
 
-///<reference path="node_modules/@types/lazy.js/index.d.ts"/>
 ///<reference path="EC_SharedLibrary_Common.d.ts"/>
 
 /**
