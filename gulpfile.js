@@ -51,7 +51,7 @@ gulp.task('logger', function (cb) {
 gulp.task('default', ['clean', 'logger'], function () {
     return gulp.src(sources)
     //.pipe($.uglify()) // scrunch them individually
-        .pipe($.concat("EC_Libs-" + version + ".js")) // combine into a single file w/version stamp
+        .pipe($.concat("NFT-" + version + ".js")) // combine into a single file w/version stamp
         .pipe(gulp.dest(outdir))
         .pipe($.size()); // outputs a blurb about how many bytes the final result is
 });

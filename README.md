@@ -9,10 +9,10 @@ intro and sample code.
 
 
 A few features:
-* single file deploy - you only add a single file to suitescript libraries.
-* bundles popular open source tools such as lodash and  momentjs
-* manipulate NetSuite records as plain javascript objects
-* work with search results as plain javascript collections, enabling use of powerful libraries such
+* single file deploy - you only add a single file to the suitescript libraries tab.
+* bundles popular open source tools such as lodash and momentjs
+* create/read/update NetSuite records using plain javascript objects
+* work with NetSuite search results as plain javascript collections which enables use of powerful libraries such
 as lodash and LazyJS.
 
 
@@ -21,6 +21,14 @@ as lodash and LazyJS.
 Add the library to your project
 
     npm install netsuite-fasttrack-toolkit
+
+To execute the unit tests
+
+    npm test
+
+If using TypeScript, add the following line to the top of your SuiteScript file
+
+    ///<reference path="node_modules/netsuite-fasttrack-toolkit/index.d.ts"/>
 
 ## Create a customer record
 
@@ -42,10 +50,10 @@ Add the library to your project
    var salesOrder = nsdal.loadObject('salesorder', '1234', ['entity', 'department','createddate'])
                           .withSublist('item', ['item', 'quantity','amount'])
 
-    // do something with body fields
+    // do something with body fields 
     salesOrder.department
     salesOrder.entity
-    salesOrder.createddate // this is a monentjs instance
+    salesOrder.createddate // this is a momentjs instance
 
    // find all line items with quantity > 100
    var highQtyLineItems = _.filter(salesOrder.item, function(line){ return line.quantity > 100 })
@@ -117,16 +125,18 @@ Examples using TypeScript:
 Contents
 --------
 
-* TypeScript Documentation is in the *.d.ts files.
+* TypeScript Documentation is in the *.d.ts files. Just add
+ 
+        ///<reference path="node_modules/netsuite-fasttrack-toolkit/index.d.ts"/>
+ 
+    to your script.
+
 
 * EC\_SharedLibrary\_Common.js - common code for use on either _server-side_ or _client-side_ scripts.
 
-* EC\_SharedLibrary\_ServerSide.js - a collection of common code for use on our _server-side_ scripts. Includes logging, error handling, etc. If you add anything awesome and applicable to all our customers please merge those changes into the Template mainline.
-
 * EC\_Search.js - Provides a search api that uses constant memory and lazy evaluation. Also includes a simplified definition for search filters/columns.
 
-* EC_nsdal.js - Explore's data access library for netsuite. Please use and improve this library for the benefit of all. Currently only works for server-side script
-
+* EC_nsdal.js - Active Record style **D**ata **A**ccess **L**ibrary for netsuite records. 
 
 
 ### Utility Libraries ###
@@ -151,17 +161,17 @@ These are brought in by npm but only used in dev (not in the built binary)
 ### Other ###
 
 * nlapi.js - the netsuite api javascript documentation direct from netsuite. This provides code completion and docs for methods inside WebStorm.
+* nlapi.d.ts - same as above (but stronger typed) definitions for TypeScript
 
 
-### Building <a name="Building"></a>
+### Building a release <a name="Building"></a>
 
 To create a single file library for referencing in NetSuite
 
-1. Edit 'package.json' and change the _version_ variable to match the subversion tag (<tagversion>) you're working with
-2. If you do not have the del module installed, you will need to install it: npm install --save del
-3. Run _gulp_  default task from commandline or in WebStorm (menu View->Tool Windows->Gulp)
-4. If you experience errors referencing missing items, it is likely that you require additional modules. Google the items mentioned and install them with npm.
-5. Compiled output will be placed in **dist/EC_Libs-\<tagversion\>.js**
+1. Tag the repository with a semver version number (e.g. 1.2.3)
+2. Edit 'package.json' and update the _version_ variable to match the tag (<tagversion>) you're working with
+3. Run `gulp` from commandline or in WebStorm (menu View->Tool Windows->Gulp)
+3. Compiled output will be placed in **dist/NFT-\<tagversion\>.js**
 
 Building the logging component requires webpack:
 
@@ -171,9 +181,7 @@ The gulp build does this automatically in code, but the equivalent commandline i
 
 ### Tests ###
 * put tests under the _tests_ folder
-* the 'run all tests' config file is tests/test.jstd
 * new tests should be in mocha/chai, run with karma (see tests/karma.conf.js)
 
-
-_Note: designed for SuiteScript 1.x._
-
+_Note: designed for SuiteScript 1.x._ 
+For the SuiteScript 2.x library, [look here](https://github.com/ExploreConsulting/netsuite-fasttrack-toolkit-ss2)
