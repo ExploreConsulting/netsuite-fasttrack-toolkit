@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "typeRoots": ["node_modules/@types"],
-    "module": "commonjs",
+    "module": "none",
     "moduleResolution": "node",
     "target": "es5",
     "noImplicitAny": false,
-    "sourceMap": false
+    "sourceMap": false,
+    "lib": ["es6", "dom"]
 
   },
-  "exclude": [
-    "node_modules"
+  "files": [
+    "EC_nsdal.ts"
   ]
 }

@@ -459,7 +459,7 @@ describe('NSDAL', function () {
         // client-side nsdal doesn't try to make rich field types such as boolean for checkbox. Everything is
         // plain fields using get/setFieldValue
         it("all fields are treated as basic fields", sinon.test(function () {
-            global.nlapiGetContext().getExecutionContext.returns('userinterface');
+            EC.isClientScript = true
             this.nlobjStub = getRecordStub();
             // can't call getField at all on client scripts!
             this.stub(this.nlobjStub, 'getField').throws("thou shalt not call getField SSS_NOT_YET_SUPPORTED");

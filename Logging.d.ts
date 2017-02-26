@@ -129,29 +129,29 @@ declare namespace LogManager {
      *
      * @return The logLevel value used in all loggers.
      */
-    function getLevel(): LogLevel;
+    export function getLevel(): LogLevel;
 
     /**
      * Gets a logger by name - creates a new instance if it doesn't yet exist - otherwise returns the existing instance
      * @param id name of the logger to get
      */
-    function getLogger(id: string): Logger;
+    export function getLogger(id: string): Logger;
 
     /**
      * Controls whether the correlation id prefixes should be included in log messages or not.
      * @param enable if true, adds correlationid to the log messages, otherwise no correlation id prefix is added
      */
-    function setIncludeCorrelationId(enable: any): any;
+    export function setIncludeCorrelationId(enable: any): any;
 
     /**
      * Sets the current default logging level. New loggers get this level assigned when constructed.
      */
-    function setLevel(level: number | LogLevel): void;
+    export function setLevel(level: number | LogLevel): void;
 
     /**
      * Configuration options for AutoLogMethodEntryExit
      */
-     interface AutoLogConfig {
+     export interface AutoLogConfig {
         /**
          * set true to include automatically include passed method arguments in the logs
          */
@@ -172,7 +172,7 @@ declare namespace LogManager {
     /**
      * A logger logs messages to a set of appenders, depending on the log level that is set.
      */
-    interface Logger {
+    export interface Logger {
 
     /**
      * The id that the logger was created with.

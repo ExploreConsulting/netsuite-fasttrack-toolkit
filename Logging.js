@@ -3,6 +3,7 @@
  * This file gets webpacked to become self contained and exposes all exports as a global property 'LogManager'
  */
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_logging_console_1 = require("aurelia-logging-console");
 var aurelia_logging_1 = require("aurelia-logging");
 exports.Logger = aurelia_logging_1.Logger;

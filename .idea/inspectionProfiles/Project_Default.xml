@@ -1,8 +1,8 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
-    <inspection_tool class="UnterminatedStatementJS" enabled="true" level="UNUSED ENTRY" enabled_by_default="true">
-      <scope name="TypeScript Files" level="UNUSED ENTRY" enabled="true">
+    <inspection_tool class="UnterminatedStatementJS" enabled="false" level="WARNING" enabled_by_default="false">
+      <scope name="TypeScript Files" level="WARNING" enabled="false">
         <option name="ignoreSemicolonAtEndOfBlock" value="true" />
       </scope>
       <option name="ignoreSemicolonAtEndOfBlock" value="true" />
