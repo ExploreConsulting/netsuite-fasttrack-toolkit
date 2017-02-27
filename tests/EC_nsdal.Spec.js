@@ -12,7 +12,7 @@
 var global = this;
 
 describe('NSDAL', function () {
-+    describe('make object', function () {
+    +describe('make object', function () {
         // using sinon.test() makes the stub restore itself after the test so other tests have a clean slate
         it("test create record has correct properties", sinon.test(function () {
 
@@ -37,7 +37,7 @@ describe('NSDAL', function () {
 
 
             // set all 3 properties
-            o.id  = 123;
+            o.id = 123;
             o.foo = "myfoo";
             o.bar = null;
 
@@ -64,7 +64,7 @@ describe('NSDAL', function () {
             var o = nsdal.createObject('custrecord_license_key', ['id', 'foo', 'bar', "baz"]);
 
             // setting all types of properties to undefined, expect all assignments to be ignored
-            o.id  = undefined;
+            o.id = undefined;
             o.foo = undefined;
             o.bar = undefined;
             o.baz = undefined;
@@ -85,8 +85,8 @@ describe('NSDAL', function () {
             var o = nsdal.createObject('custrecord_license_key', ['id', 'foo', 'bar']);
 
             var tmp = o.id;
-            tmp     = o.foo;
-            tmp     = o.bar;
+            tmp = o.foo;
+            tmp = o.bar;
 
             // each assignment of properties above should have resulted in setFieldValue() being called
             assert(nlobjStub.getFieldValue.calledThrice);
@@ -94,7 +94,6 @@ describe('NSDAL', function () {
 
 
         it("test body field that is not reflectable is treated as basic fields", sinon.test(function () {
-
             var nlobjStub = getRecordStub();
             this.stub(global, 'nlapiCreateRecord').returns(nlobjStub);
             // simulate a "phantom field" - one which can have getfield
@@ -105,12 +104,28 @@ describe('NSDAL', function () {
             var o = nsdal.createObject('custrecord_license_key', ['id', 'foo', 'bar']);
             // read all 3 properties
             var tmp = o.id;
-            tmp     = o.foo;
-            tmp     = o.bar;
+            tmp = o.foo;
+            tmp = o.bar;
 
             // each assignment of properties above should have resulted in setFieldValue() being called, including
             // the "phantom" field foo
             assert(nlobjStub.getFieldValue.calledThrice);
+        }));
+
+
+        // using sinon.test() makes the stub restore itself after the test so other tests have a clean slate
+        it("test create record in dynamic mode", sinon.test(function () {
+
+            // have underlying nlapiCreateRecord() call return an empty nlobjRecord
+            this.stub(global, 'nlapiCreateRecord').returns(getRecordStub());
+
+            // last argument is boolean - 'true' to create record in dynamic mode, false otherwise.
+            var o = nsdal.createObject('custrecord_license_key', ['id', 'foo', 'bar'],true);
+
+            assert(o.hasOwnProperty('id'));
+            assert(o.hasOwnProperty('foo'));
+
+            sinon.assert.calledWith(global.nlapiCreateRecord, 'custrecord_license_key', { recordmode:'dynamic'});
         }));
 
     });
@@ -120,7 +135,7 @@ describe('NSDAL', function () {
         it("test load record by id has correct id", sinon.test(function () {
 
             // mock a record returned from netsuite with an id
-            var mockInternalId   = '1';
+            var mockInternalId = '1';
             var fakeLoadedRecord = getRecordStub();
             this.stub(global, 'nlapiLoadRecord').returns(fakeLoadedRecord);
 
@@ -168,7 +183,7 @@ describe('NSDAL', function () {
             this.stub(fakeLoadedRecord, 'getField')
                 .withArgs('foo').returns({type: 'date'});
 
-            this.stub(fakeLoadedRecord,'getFieldValue').returns('2011/01/01')
+            this.stub(fakeLoadedRecord, 'getFieldValue').returns('2011/01/01')
             // exercise SUT
             var o = nsdal.loadObject('custrecord_license_key', 'mockid', ['foo']);
 
@@ -184,7 +199,7 @@ describe('NSDAL', function () {
             // stub only foo to be a date field
             this.stub(fakeLoadedRecord, 'getField')
                 .withArgs('foo').returns({type: 'datetime'});
-            this.stub(fakeLoadedRecord,'getFieldValue').returns('2011/01/01')
+            this.stub(fakeLoadedRecord, 'getFieldValue').returns('2011/01/01')
 
             // exercise SUT
             var o = nsdal.loadObject('x', 'mockid', ['foo']);
@@ -205,7 +220,7 @@ describe('NSDAL', function () {
             // stub foo to be a date field
             this.stub(fakeLoadedRecord, 'getField')
                 .withArgs('foo').returns({type: 'date'});
-            this.stub(fakeLoadedRecord,'getFieldValue').returns('unused date value')
+            this.stub(fakeLoadedRecord, 'getFieldValue').returns('unused date value')
 
             this.stub(global, 'nlapiStringToDate').returns(testDateFullISO);
             //endregion
@@ -228,7 +243,7 @@ describe('NSDAL', function () {
             // stub foo to be a date field
             this.stub(fakeLoadedRecord, 'getField')
                 .withArgs('foo').returns({type: 'date'});
-            var setLineValueSpy  = this.spy(fakeLoadedRecord, "setFieldValue");
+            var setLineValueSpy = this.spy(fakeLoadedRecord, "setFieldValue");
             //endregion
 
             // exercise SUT
@@ -249,7 +264,7 @@ describe('NSDAL', function () {
             this.stub(fakeLoadedRecord, 'getField')
                 .withArgs('foo').returns({type: 'date'});
             // force return null, which is used by the datetime descriptor with the underlying field
-            this.stub(fakeLoadedRecord,'getFieldValue').returns(null)
+            this.stub(fakeLoadedRecord, 'getFieldValue').returns(null)
 
             //endregion
 
@@ -271,7 +286,7 @@ describe('NSDAL', function () {
             // stub foo to be a date field
             this.stub(fakeLoadedRecord, 'getField')
                 .withArgs('foo').returns({type: 'date'});
-            var setLineValueSpy  = this.spy(fakeLoadedRecord, "setFieldValue");
+            var setLineValueSpy = this.spy(fakeLoadedRecord, "setFieldValue");
             //endregion
 
             // exercise SUT
@@ -324,7 +339,7 @@ describe('NSDAL', function () {
 
             it("test get value on a addressbook line item field", sinon.test(function () {
                 //region test setup
-                var fake                 = getRecordStub();
+                var fake = getRecordStub();
                 this.stub(global, 'nlapiLoadRecord').returns(fake);
                 var getLineItemValueStub = this.stub(fake, "getLineItemValue").returns("avalue");
                 this.stub(fake, "getLineItemCount").returns(2);
@@ -377,7 +392,7 @@ describe('NSDAL', function () {
 
             it("test modify a line item", sinon.test(function () {
                 //region test setup
-                var fake        = getRecordStub();
+                var fake = getRecordStub();
                 addAddressBookSubrecord(fake);
                 this.stub(global, 'nlapiLoadRecord').returns(fake);
                 this.stub(fake, "getLineItemCount").returns(2);
@@ -399,7 +414,7 @@ describe('NSDAL', function () {
 
             it("test two sublists work independently", sinon.test(function () {
                 //region test setup
-                var fake                 = getRecordStub();
+                var fake = getRecordStub();
                 addAddressBookSubrecord(fake);
                 this.stub(global, 'nlapiLoadRecord').returns(fake);
                 var getLineItemValueStub = this.stub(fake, "getLineItemValue").returns("avalue");
@@ -444,15 +459,15 @@ describe('NSDAL', function () {
         });
 
         // default to making all calls to getField return a plain 'text' field type
-        var fieldObj        = new nlobjField();
-        fieldObj.type       = 'text';
+        var fieldObj = new nlobjField();
+        fieldObj.type = 'text';
         fakeRecord.getField = function () {
             return fieldObj;
         };
         return fakeRecord;
     }
 
-    describe('client script usage',  function () {
+    describe('client script usage', function () {
         // this is to force simulation that this is a client side script (client side scripts don't have this function
         nlapiGetNewRecord = undefined;
 
@@ -471,8 +486,8 @@ describe('NSDAL', function () {
             var o = nsdal.createObject('custrecord_license_key', ['id', 'foo', 'bar']);
             // read all 3 properties
             var tmp = o.id;
-            tmp     = o.foo;
-            tmp     = o.bar;
+            tmp = o.foo;
+            tmp = o.bar;
             dump(this.nlobjStub.getFieldValue.callCount);
             // each read should have resulted in getFieldValue() being called
             assert(this.nlobjStub.getFieldValue.calledThrice);
