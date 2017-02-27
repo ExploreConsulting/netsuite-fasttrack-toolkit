@@ -1,8 +1,8 @@
 
 //region logging example
 ///<reference path="Logging.d.ts"/>
-///<reference path="EC_nsdal.d.ts"/>
 ///<reference path="nlapi.d.ts"/>
+///<reference path="EC_nsdal.ts"/>
 
 
 var customer = nlapiLoadRecord('customer', '1234')

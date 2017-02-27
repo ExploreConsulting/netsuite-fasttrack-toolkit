@@ -1,9 +1,10 @@
 /// <reference path="node_modules/moment/moment.d.ts" />
 /// <reference path="Logging.d.ts" />
+/// <reference path="EC_SharedLibrary_Common.d.ts" />
+/// <reference path="nlapi.d.ts" />
 /**
  * Copyright Explore Consulting, LLC
  */
-declare var moment: any;
 /**
  * ActiveRecord object. Supports direct property access for NS fields and has a save() method to persist changes.
  */
@@ -37,6 +38,7 @@ declare namespace nsdal {
          */
         commitLine(): void;
     }
+    let functionsToPassThru: string[];
     /**
      * Creates a new netsuite record via nlapiCreateRecord() with the passed fields exposed as properties on the returned object.
      * @param typeName type of netsuite record to create
