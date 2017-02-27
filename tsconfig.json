@@ -10,6 +10,7 @@
 
   },
   "files": [
-    "EC_nsdal.ts"
+    "EC_nsdal.ts",
+    "EC_Search.ts"
   ]
 }
