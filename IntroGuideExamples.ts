@@ -1,6 +1,8 @@
 
 //region logging example
 ///<reference path="Logging.d.ts"/>
+///<reference path="EC_nsdal.d.ts"/>
+///<reference path="nlapi.d.ts"/>
 
 
 var customer = nlapiLoadRecord('customer', '1234')
@@ -17,7 +19,6 @@ namespace NFT {
     var customer = nsdal.loadObject('customer', '1234', ['comments', 'isinactive', 'phone'])
 
     log.debug("customer info", customer)
-
 
 
     // MyComponent uses a custom logger, whose loglevel can be controlled independently of the default logger
