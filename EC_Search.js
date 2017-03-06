@@ -17,7 +17,7 @@ if (!console) {
             log.error(m);
         }
     };
-    console = c;
+    var console = c;
 }
 /**
  * main namespace for lazy search functionality. Access the lazy search features (and the lazy specific logger)

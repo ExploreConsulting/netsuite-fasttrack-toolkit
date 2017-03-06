@@ -49,7 +49,7 @@ if (!console) {
             log.error(m)
         }
     }
-    console = <Console>c
+    var console = <Console>c
 }
 
 
