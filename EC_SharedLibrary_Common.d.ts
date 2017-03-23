@@ -9,11 +9,11 @@ declare namespace EC {
      */
     interface State {
         // state full name
-        name:string,
+        name: string,
         // netsuite internal id
-        id:string,
+        id: string,
         // two letter state abbreviation
-        abbrev:string
+        abbrev: string
     }
 
     /**
@@ -33,7 +33,7 @@ declare namespace EC {
      * EC.getState( { id: '0' } );
      *  {name: "Alabama", id: 0, abbrev: "AL"}
      */
-    function getState(query:{ name?:string, id?:string, abbrev?:string }):State
+    function getState(query: { name?: string, id?: string, abbrev?: string }): State
 
 
     /**
@@ -41,9 +41,9 @@ declare namespace EC {
      */
     interface TransactionType {
         // external string name for transaction, typically PascalCase
-        external:string,
+        external: string,
         // internal id string name, may or may not match the external name (hence the need for a mapping)
-        internal:string
+        internal: string
     }
 
     /**
@@ -59,20 +59,40 @@ declare namespace EC {
      * EC.getTransactionType({ external: "SalesOrd" } );
      *  {external:"SalesOrd",internal:"salesorder"}
      */
-    function getTransactionType(query:{ internal?:string, external?:string }):TransactionType
+    function getTransactionType(query: { internal?: string, external?: string }): TransactionType
 
     /**
      * True if the current script is running as a client script
      * @type {boolean} true if the current script is a client script, false otherwise
      */
-    var isClientScript:boolean
+    var isClientScript: boolean
 
     /**
      * Takes an exception of several types and parses details of the message into a friendly string
      * Handles some advanced cases like capturing a stack trace if available.
      * @param e the exception
      */
-    function getExceptionDetail(e: Object|Error): string
+    function getExceptionDetail(e: Object | Error): string
+
+    /**
+     *  Represents NetSuite internal and external IDs for all item types. Maps from external id to internal id
+     *  e.g. InvtPart -> 'inventoryitem'
+     */
+    enum ItemTypes {
+        InvtPart,
+        NonInvtPart,
+        Group,
+        Kit,
+        Assembly,
+        Service,
+        Description,
+        Discount,
+        OthCharge,
+        GiftCert,
+        Markup,
+        Payment,
+        Subtotal
+    }
 }
 
 
