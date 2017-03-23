@@ -14,7 +14,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/lazy.js": "^0.3.28",
-    "@types/lodash": "^4.14.52",
+    "@types/lodash": "^4.14.57",
     "chai": "^3.5.0",
     "del": "^0.1.3",
     "gulp": "^3.8.0",
