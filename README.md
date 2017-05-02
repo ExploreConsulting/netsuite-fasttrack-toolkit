@@ -79,8 +79,8 @@ If using TypeScript, add the following line to the top of your SuiteScript file
 ```javascript
 
     // create search, returning 3 customer fields
-    var search = lazy.createSearch(['customer'],[['firstname', 'contains', 'joe']],
-     ['internalid','firstname', 'phone'] )
+    var search = lazy.createSearch('customer',[['firstname', 'contains', 'joe']],
+     [['internalid'],['firstname'], ['phone']] )
      .nsSearchResult2obj() // convert search results to plain javascript
     .take(10000) // process only the first 10000
     .map(function(customer) {
