@@ -5,18 +5,18 @@
 ///<reference path="EC_nsdal.ts"/>
 
 
-var customer = nlapiLoadRecord('customer', '1234')
+const customer = nlapiLoadRecord('customer', '1234')
 
-var comments = customer.getFieldValue('comments')
-var isinactive = customer.getFieldValue('isinactive')
-var phone = customer.getFieldValue('phone')
+const comments = customer.getFieldValue('comments')
+const isinactive = customer.getFieldValue('isinactive')
+const phone = customer.getFieldValue('phone')
 
 nlapiLogExecution("DEBUG", "customer info", "comments:" + comments + " isinactive:" + isinactive + " phone:" + phone)
 
 
 namespace NFT {
 
-    var customer = nsdal.loadObject('customer', '1234', ['comments', 'isinactive', 'phone'])
+    let customer = nsdal.loadObject<any>('customer', '1234', ['comments', 'isinactive', 'phone'])
 
     log.debug("customer info", customer)
 
@@ -33,7 +33,7 @@ namespace NFT {
         }
     }
     // set MyComponent to only log 'warning' level and above
-    var c = new MyComponent()
+    const c = new MyComponent()
     c.log.setLevel(LogManager.logLevel.warn)
 
     // use the component
