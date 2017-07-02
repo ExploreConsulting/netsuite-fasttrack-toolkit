@@ -109,7 +109,6 @@ Examples using TypeScript:
 
 ```typescript
 
-   ///<reference path="node_modules/netsuite-fasttrack-toolkit/index.d.ts"/>
 
   interface Customer {
         companyname:string
@@ -130,13 +129,6 @@ Examples using TypeScript:
 
 Contents
 --------
-
-* TypeScript Documentation is in the *.d.ts files. Just add
- 
-        ///<reference path="node_modules/netsuite-fasttrack-toolkit/index.d.ts"/>
- 
-    to your script.
-
 
 * EC\_SharedLibrary\_Common.js - common code for use on either _server-side_ or _client-side_ scripts.
 
@@ -184,6 +176,10 @@ Building the logging component requires webpack:
     webpack Logging.js  --output-library LogManager --output-filename Aurelia-Logger-webpack-lib.js --output-library-target var
 
 The gulp build does this automatically in code, but the equivalent commandline is above.
+
+To publish to npm (public registry)
+
+    npm publish --registry registry.nmpjs.org 
 
 ### Tests ###
 * put tests under the _tests_ folder
