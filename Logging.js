@@ -1,9 +1,9 @@
+"use strict";
 /**
  * Logger implementation based on the implementation in NFT-SS2
  * This file gets webpacked to become self contained and exposes all exports as a global property 'LogManager'
  */
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var aurelia_logging_console_1 = require("aurelia-logging-console");
 var aurelia_logging_1 = require("aurelia-logging");
 exports.Logger = aurelia_logging_1.Logger;
@@ -196,3 +196,4 @@ if (EC.isClientScript)
     al.addAppender(new aurelia_logging_console_1.ConsoleAppender());
 else
     al.addAppender(new ExecutionLogAppender());
+//# sourceMappingURL=Logging.js.map

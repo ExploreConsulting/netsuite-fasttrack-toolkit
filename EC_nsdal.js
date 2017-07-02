@@ -1,10 +1,6 @@
 /**
  * Copyright Explore Consulting, LLC
  */
-///<reference path="node_modules/moment/moment.d.ts"/>
-///<reference path="Logging.d.ts"/>
-///<reference path="EC_SharedLibrary_Common.d.ts"/>
-///<reference path="nlapi.d.ts"/>
 var nsdal;
 (function (nsdal) {
     // these are functions that nlobjRecord defines which we want to expose on this object and pass through

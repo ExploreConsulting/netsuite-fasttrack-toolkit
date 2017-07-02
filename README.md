@@ -26,9 +26,15 @@ To execute the unit tests
 
     npm test
 
-If using TypeScript, add the following line to the top of your SuiteScript file
+If using TypeScript, add the library global declarations to your `tsconfig.json` file
 
-    ///<reference path="node_modules/netsuite-fasttrack-toolkit/index.d.ts"/>
+    "files": [
+        "moment-2.18.1.d.ts",
+        "EC_SharedLibrary_Common.d.ts",
+        "Logging.d.ts",
+        "nlapi.d.ts",
+        "<...other script .ts files start here>"
+      ]
 
 ## Create a customer record
 

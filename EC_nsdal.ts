@@ -2,10 +2,6 @@
  * Copyright Explore Consulting, LLC
  */
 
-///<reference path="node_modules/moment/moment.d.ts"/>
-///<reference path="Logging.d.ts"/>
-///<reference path="EC_SharedLibrary_Common.d.ts"/>
-///<reference path="nlapi.d.ts"/>
 
 /**
  * ActiveRecord object. Supports direct property access for NS fields and has a save() method to persist changes.

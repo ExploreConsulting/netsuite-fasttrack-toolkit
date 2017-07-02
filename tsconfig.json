@@ -10,6 +10,10 @@
 
   },
   "files": [
+    "moment-2.18.1.d.ts",
+    "EC_SharedLibrary_Common.d.ts",
+    "Logging.d.ts",
+    "nlapi.d.ts",
     "EC_nsdal.ts"
   ]
 }
