@@ -13,7 +13,7 @@ interface NSDALObject extends nlobjRecord {
      * @param  listname the type of sublist. e.g. "addressbook"
      * @param  propNames field names you want to access from the sublist
      */
-    withSublist<T>(listname: string, propNames: Array<string>): nsdal.Sublist & T
+    withSublist<T>(listname: string, propNames: Array<keyof T>): nsdal.Sublist & T
 
     /**
      * Saves this object to netsuite via nlapiSubmitRecord()
@@ -297,7 +297,7 @@ namespace nsdal {
      * @param dynamic if true, creates the record in 'dynamic' mode
      * @returns {Object} a friendlier nlobjRecord.
      */
-    export function createObject<T>(typeName: string, propNames: Array<string>, dynamic = false): T & NSDALObject {
+    export function createObject<T>(typeName: string, propNames: Array<keyof T>, dynamic = false): T & NSDALObject {
         let rec = dynamic ? nlapiCreateRecord(typeName, {recordmode: 'dynamic'}) : nlapiCreateRecord(typeName)
         return this.fromRecord(rec, propNames)
     }
@@ -309,7 +309,7 @@ namespace nsdal {
      * @param  propNames string array of record field names to include as properties on the object
      * @returns {Object} a friendlier nlobjRecord
      */
-    export function loadObject<T>(recordType: string, id: string, propNames: Array<string>): T & NSDALObject {
+    export function loadObject<T>(recordType: string, id: string, propNames: Array<keyof T>): T & NSDALObject {
         return this.fromRecord(nlapiLoadRecord(recordType, id), propNames)
     }
 
@@ -321,7 +321,7 @@ namespace nsdal {
      * @param  propNames propNames string array of record field names to include as properties on the object
      * @returns {Object} a friendlier nlobjRecord
      */
-    export function fromRecord<T>(theRecord: nlobjRecord, propNames: Array<string>): T & NSDALObject {
+    export function fromRecord<T>(theRecord: nlobjRecord, propNames: Array<keyof T>): T & NSDALObject {
         let obj = addFieldProperties(theRecord, propNames)
 
         // pass through calls to nlobjRecord when invoked on this object
@@ -339,7 +339,7 @@ namespace nsdal {
      * @param  listname the type of sublist. e.g. "addressbook"
      * @param  propNames field names you want to access from the sublist
      */
-    export function withSublist<T>(listname: string, propNames: Array<string>): Sublist & T {
+    export function withSublist<T>(listname: string, propNames: Array<keyof T>): Sublist & T {
 
         // how big does our array representing the sublist need to be?
         let numLines = parseInt(this.getLineItemCount(listname))

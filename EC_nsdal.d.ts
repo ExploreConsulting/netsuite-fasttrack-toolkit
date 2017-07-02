@@ -10,7 +10,7 @@ interface NSDALObject extends nlobjRecord {
      * @param  listname the type of sublist. e.g. "addressbook"
      * @param  propNames field names you want to access from the sublist
      */
-    withSublist<T>(listname: string, propNames: Array<string>): nsdal.Sublist & T;
+    withSublist<T>(listname: string, propNames: Array<keyof T>): nsdal.Sublist & T;
     /**
      * Saves this object to netsuite via nlapiSubmitRecord()
      * @param doSourcing see nlapiSubmitRecord
@@ -42,7 +42,7 @@ declare namespace nsdal {
      * @param dynamic if true, creates the record in 'dynamic' mode
      * @returns {Object} a friendlier nlobjRecord.
      */
-    function createObject<T>(typeName: string, propNames: Array<string>, dynamic?: boolean): T & NSDALObject;
+    function createObject<T>(typeName: string, propNames: Array<keyof T>, dynamic?: boolean): T & NSDALObject;
     /**
      * Loads a given record  via nlapiLoadRecord() and makes properties available.
      * @param  recordType the type of record you want to load
@@ -50,7 +50,7 @@ declare namespace nsdal {
      * @param  propNames string array of record field names to include as properties on the object
      * @returns {Object} a friendlier nlobjRecord
      */
-    function loadObject<T>(recordType: string, id: string, propNames: Array<string>): T & NSDALObject;
+    function loadObject<T>(recordType: string, id: string, propNames: Array<keyof T>): T & NSDALObject;
     /**
      * Wraps an existing netsuite record to expose properties. The record may have been obtained (for example) via an nlapiGetNewRecord()
      * call in a UserEvent script.
@@ -59,11 +59,11 @@ declare namespace nsdal {
      * @param  propNames propNames string array of record field names to include as properties on the object
      * @returns {Object} a friendlier nlobjRecord
      */
-    function fromRecord<T>(theRecord: nlobjRecord, propNames: Array<string>): T & NSDALObject;
+    function fromRecord<T>(theRecord: nlobjRecord, propNames: Array<keyof T>): T & NSDALObject;
     /**
      * provides array-like behavior for manipulating sublists (line items)
      * @param  listname the type of sublist. e.g. "addressbook"
      * @param  propNames field names you want to access from the sublist
      */
-    function withSublist<T>(listname: string, propNames: Array<string>): Sublist & T;
+    function withSublist<T>(listname: string, propNames: Array<keyof T>): Sublist & T;
 }
