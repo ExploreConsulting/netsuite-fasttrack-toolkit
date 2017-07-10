@@ -1,9 +1,5 @@
 
 //region logging example
-///<reference path="Logging.d.ts"/>
-///<reference path="nlapi.d.ts"/>
-///<reference path="EC_nsdal.ts"/>
-
 
 const customer = nlapiLoadRecord('customer', '1234')
 
@@ -13,11 +9,18 @@ const phone = customer.getFieldValue('phone')
 
 nlapiLogExecution("DEBUG", "customer info", "comments:" + comments + " isinactive:" + isinactive + " phone:" + phone)
 
+/**
+ * Description of the NetSuite customer record
+ */
+interface Customer {
+    comments
+    phone
+    isinactive
+}
 
 namespace NFT {
 
-    let customer = nsdal.loadObject<any>('customer', '1234', ['comments', 'isinactive', 'phone'])
-
+    const customer = nsdal.loadObject<Customer>('customer', '1234', ['comments', 'isinactive', 'phone'])
     log.debug("customer info", customer)
 
 
