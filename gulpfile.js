@@ -19,7 +19,7 @@ var $ = require('gulp-load-plugins')();
 var sources = [
     "aop.js",
     "node_modules/lodash/lodash.js",
-    "node_modules/moment/moment.js",
+    "moment-2.24.0.js",
     "workarounds.js",
     "lazy-0.4.3.js",
     "EC_SharedLibrary_Common.js",
