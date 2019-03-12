@@ -16,11 +16,12 @@ var $ = require('gulp-load-plugins')();
 /**
  * All the sources files we want minimize and combine
  */
-var sources = ["aop.js",
+var sources = [
+    "aop.js",
     "node_modules/lodash/lodash.js",
     "node_modules/moment/moment.js",
-    "node_modules/lazy.js/lazy.js",
     "workarounds.js",
+    "lazy-0.4.3.js",
     "EC_SharedLibrary_Common.js",
     "Aurelia-Logger-webpack-lib.js",
     "EC_Defaults.js",
